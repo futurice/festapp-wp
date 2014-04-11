@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace FestApp
 {
@@ -13,7 +14,7 @@ namespace FestApp
     {
         public async Task<T> Load<T>(string apiPath)
         {
-            return await Load<T>(apiPath);
+            return await LoadAsTask<T>(apiPath);
         }
 
         private Task<T> LoadAsTask<T>(string apiPath)
@@ -22,12 +23,21 @@ namespace FestApp
             WebClient web = new WebClient();
 
             web.DownloadStringCompleted += (object sender, DownloadStringCompletedEventArgs e) => {
-                string json = e.Result;
-                T result = JsonConvert.DeserializeObject<T>(json);
-                task.TrySetResult(result);
+                try
+                {
+                    string json = e.Result;
+                    T result = JsonConvert.DeserializeObject<T>(json);
+                    task.TrySetResult(result);
+                }
+                catch (Exception ex)
+                {
+                    task.TrySetException(ex);
+                }
             };
 
-            web.DownloadStringAsync(new Uri(Config.ServerUrl + apiPath));
+            string url = Config.ServerUrl + apiPath;
+            Debug.WriteLine("Load " + url);
+            web.DownloadStringAsync(new Uri(url));
             return task.Task;
         }
 

@@ -62,6 +62,8 @@ namespace FestApp
         {
             List<Artist> artists = await new DataLoader().Load<List<Artist>>("artists");
 
+            this.Items.Clear();
+
             foreach (Artist artist in artists)
             {
                 this.Items.Add(new ArtistViewModel()
