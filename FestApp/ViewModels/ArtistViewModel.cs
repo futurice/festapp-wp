@@ -9,68 +9,69 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace FestApp
 {
     public class ArtistViewModel : INotifyPropertyChanged
     {
-        private string _lineOne;
+        private string _name;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string LineOne
+        public string Name
         {
             get
             {
-                return _lineOne;
+                return _name;
             }
             set
             {
-                if (value != _lineOne) {
-                    _lineOne = value;
-                    NotifyPropertyChanged("LineOne");
+                if (value != _name) {
+                    _name = value;
+                    NotifyPropertyChanged("Name");
                 }
             }
         }
 
-        private string _lineTwo;
+        private string _description;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string LineTwo
+        public string Description
         {
             get
             {
-                return _lineTwo;
+                return _description;
             }
             set
             {
-                if (value != _lineTwo) {
-                    _lineTwo = value;
-                    NotifyPropertyChanged("LineTwo");
+                if (value != _description) {
+                    _description = value;
+                    NotifyPropertyChanged("Description");
                 }
             }
         }
 
-        private string _lineThree;
+        private BitmapImage _photo;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string LineThree
+        public BitmapImage Photo
         {
             get
             {
-                return _lineThree;
+                return _photo;
             }
             set
             {
-                if (value != _lineThree) {
-                    _lineThree = value;
-                    NotifyPropertyChanged("LineThree");
+                if (value != _photo) {
+                    _photo = value;
+                    NotifyPropertyChanged("Photo");
                 }
             }
         }

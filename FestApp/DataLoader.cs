@@ -7,38 +7,68 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace FestApp
 {
+    public enum LoadSource
+    {
+        NETWORK,
+        CACHE
+    }
+
     public class DataLoader
     {
-        public async Task<T> Load<T>(string apiPath)
+        public async Task<BitmapImage> LoadImage(string path)
         {
-            return await LoadAsTask<T>(apiPath);
+            string url = Config.ServerUrl + path;
+            WebRequest req = WebRequest.CreateHttp(url);
+
+            WebResponse response = await req.GetResponseAsync();
+            Stream stream = response.GetResponseStream();
+            MemoryStream memStream = new MemoryStream();
+            await stream.CopyToAsync(memStream);
+            memStream.Seek(0, SeekOrigin.Begin);
+
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.SetSource(memStream);
+            return bitmapImage;
         }
 
-        private Task<T> LoadAsTask<T>(string apiPath)
+        public async Task<T> Load<T>(string apiPath, LoadSource source)
         {
-            var task = new TaskCompletionSource<T>();
-            WebClient web = new WebClient();
+            switch (source)
+            {
+                case LoadSource.NETWORK:
+                    return await LoadFromNet<T>(apiPath) ;
+                case LoadSource.CACHE:
+                    return await LoadFromCache<T>(apiPath);
+                default:
+                    throw new Exception("Unknown source");
+            }
+        }
 
-            web.DownloadStringCompleted += (object sender, DownloadStringCompletedEventArgs e) => {
-                try
-                {
-                    string json = e.Result;
-                    T result = JsonConvert.DeserializeObject<T>(json);
-                    task.TrySetResult(result);
-                }
-                catch (Exception ex)
-                {
-                    task.TrySetException(ex);
-                }
-            };
+        public async Task<T> LoadFromCache<T>(string apiPath)
+        {
+            var cachedResource = Application.GetResourceStream(new Uri("Cache/" + apiPath, UriKind.Relative));
+            StreamReader reader = new StreamReader(cachedResource.Stream);
+            string json = await reader.ReadToEndAsync();
 
-            string url = Config.ServerUrl + apiPath;
-            Debug.WriteLine("Load " + url);
-            web.DownloadStringAsync(new Uri(url));
-            return task.Task;
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public async Task<T> LoadFromNet<T>(string apiPath)
+        {
+            string url = Config.ServerUrl + "api/" + apiPath;
+            WebRequest req = WebRequest.CreateHttp(url);
+
+            WebResponse response = await req.GetResponseAsync();
+            Stream stream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(stream);
+            string json = await reader.ReadToEndAsync();
+
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         void web_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)

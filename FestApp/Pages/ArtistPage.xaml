@@ -20,16 +20,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Grid.ColumnSpan="2" Margin="12,17,0,28">
             <TextBlock x:Name="PageTitle" Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="ListTitle" Text="{Binding LineOne}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ListTitle" Text="{Binding Name}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel contains details text. Place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock x:Name="ContentText" Text="{Binding LineThree}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ContentText" Text="{Binding Description}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
         </Grid>
+
+        <Image Grid.Row="1" Grid.Column="1" Source="{Binding Photo}" MaxWidth="150"
+               VerticalAlignment="Top"/>
     </Grid>
  
 </phone:PhoneApplicationPage>

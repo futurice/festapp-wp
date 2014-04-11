@@ -7,6 +7,6 @@ namespace FestApp
 {
     public class Config
     {
-        public static string ServerUrl = "http://festapp-server.herokuapp.com/api/";
+        public static string ServerUrl = "http://festapp-server.herokuapp.com/";
     }
 }

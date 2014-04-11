@@ -60,7 +60,7 @@ namespace FestApp
         /// </summary>
         public async void LoadData()
         {
-            List<Artist> artists = await new DataLoader().Load<List<Artist>>("artists");
+            List<Artist> artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.NETWORK);
 
             this.Items.Clear();
 
@@ -68,9 +68,9 @@ namespace FestApp
             {
                 this.Items.Add(new ArtistViewModel()
                 {
-                    LineOne = artist.Name,
-                    LineTwo = artist.Stage,
-                    LineThree = artist.ContactInfo
+                    Name = artist.Name,
+                    Description = artist.Content,
+                    Photo = await new DataLoader().LoadImage(artist.Picture)
                 });
             }
 

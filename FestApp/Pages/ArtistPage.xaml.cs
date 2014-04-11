@@ -20,6 +20,7 @@ namespace FestApp
         public ArtistPage()
         {
             InitializeComponent();
+
         }
 
         // When page is navigated to set data context to selected item in list
