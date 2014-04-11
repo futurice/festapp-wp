@@ -14,10 +14,10 @@ using Microsoft.Phone.Controls;
 
 namespace FestApp
 {
-    public partial class DetailsPage : PhoneApplicationPage
+    public partial class ArtistPage : PhoneApplicationPage
     {
         // Constructor
-        public DetailsPage()
+        public ArtistPage()
         {
             InitializeComponent();
         }

@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace FestApp
 {
-    public class ItemViewModel : INotifyPropertyChanged
+    public class ArtistViewModel : INotifyPropertyChanged
     {
         private string _lineOne;
         /// <summary>
