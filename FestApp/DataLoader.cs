@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Threading;
 
 namespace FestApp
 {
@@ -20,20 +21,29 @@ namespace FestApp
 
     public class DataLoader
     {
-        public async Task<BitmapImage> LoadImage(string path)
+        public async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
         {
             string url = Config.ServerUrl + path;
             WebRequest req = WebRequest.CreateHttp(url);
 
-            WebResponse response = await req.GetResponseAsync();
-            Stream stream = response.GetResponseStream();
-            MemoryStream memStream = new MemoryStream();
-            await stream.CopyToAsync(memStream);
-            memStream.Seek(0, SeekOrigin.Begin);
+            using (var response = await req.GetResponseAsync())
+            using (var stream = response.GetResponseStream())
+            {
+                MemoryStream memStream = new MemoryStream();
+                if (ct.HasValue)
+                {
+                    await stream.CopyToAsync(memStream, 4096, ct.Value);
+                }
+                else
+                {
+                    await stream.CopyToAsync(memStream);
+                }
+                memStream.Seek(0, SeekOrigin.Begin);
 
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(memStream);
-            return bitmapImage;
+                BitmapImage bitmapImage = new BitmapImage() { CreateOptions = BitmapCreateOptions.BackgroundCreation };
+                bitmapImage.SetSource(memStream);
+                return bitmapImage;
+            }
         }
 
         public async Task<T> Load<T>(string apiPath, LoadSource source)
@@ -52,23 +62,25 @@ namespace FestApp
         public async Task<T> LoadFromCache<T>(string apiPath)
         {
             var cachedResource = Application.GetResourceStream(new Uri("Cache/" + apiPath, UriKind.Relative));
-            StreamReader reader = new StreamReader(cachedResource.Stream);
-            string json = await reader.ReadToEndAsync();
-
-            return JsonConvert.DeserializeObject<T>(json);
+            using (StreamReader reader = new StreamReader(cachedResource.Stream))
+            {
+                string json = await reader.ReadToEndAsync();
+                return JsonConvert.DeserializeObject<T>(json);
+            }
         }
 
         public async Task<T> LoadFromNet<T>(string apiPath)
         {
             string url = Config.ServerUrl + "api/" + apiPath;
             WebRequest req = WebRequest.CreateHttp(url);
+            using (WebResponse response = await req.GetResponseAsync())
+            using (Stream stream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream);
+                string json = await reader.ReadToEndAsync();
 
-            WebResponse response = await req.GetResponseAsync();
-            Stream stream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(stream);
-            string json = await reader.ReadToEndAsync();
-
-            return JsonConvert.DeserializeObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json);
+            }
         }
 
         void web_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
