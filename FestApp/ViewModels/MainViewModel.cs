@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using FestApp.Models;
 
 
 namespace FestApp
@@ -57,11 +58,25 @@ namespace FestApp
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
-        public void LoadData()
+        public async void LoadData()
         {
+            List<Artist> artists = await new DataLoader().Load<List<Artist>>("artists");
+
+            foreach (Artist artist in artists)
+            {
+                this.Items.Add(new ArtistViewModel()
+                {
+                    LineOne = artist.Name,
+                    LineTwo = artist.Stage,
+                    LineThree = artist.ContactInfo
+                });
+            }
+
+            /*
             for (int i = 1; i < 21; i++) {
                 this.Items.Add(new ArtistViewModel() { LineOne = string.Format("bändi {0}", i), LineTwo = "Maecenas praesent accumsan bibendum", LineThree = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
             }
+            */
 
             this.IsDataLoaded = true;
         }
