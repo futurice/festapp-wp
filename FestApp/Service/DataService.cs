@@ -8,7 +8,7 @@ namespace FestApp.Service
 {
     public class DataService
     {
-        private const string _baseUrl = "http://festapp.herokuapp.com/api/";
+        private const string _baseUrl = "http://festapp-server.herokuapp.com/api/";
         
         public async void GetArtists(Action<ObservableCollection<Artist>, Exception> callback)
         {
