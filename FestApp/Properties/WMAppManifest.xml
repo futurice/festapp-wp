@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
+  <App xmlns="" ProductID="{b7722155-f5cc-4ac4-adf6-4583ab8966f3}" Title="FestApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="FestApp author" Description="Sample description" Publisher="Ruisrock_2013" BitsPerPixel="32">
+    <IconPath IsRelative="true" IsResource="false">Images\appIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="View/MainPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="FestAppToken" TaskName="_default">
+        <TemplateType5>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Images\appTile.png</BackgroundImageURI>
+          <Count>0</Count>
+          <Title>FestApp</Title>
+        </TemplateType5>
+      </PrimaryToken>
+    </Tokens>
+  </App>
+</Deployment>
