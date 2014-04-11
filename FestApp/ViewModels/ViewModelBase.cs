@@ -7,7 +7,7 @@ using FestApp.Utils;
 
 namespace FestApp.ViewModels
 {
-    abstract class ViewModelBase : PropertyChangedBase
+    public abstract class ViewModelBase : PropertyChangedBase
     {
         // Returns whether or not the value changed
         public bool SetVMProperty<T>(Expression<Func<T>> propertyExpr, T newValue)

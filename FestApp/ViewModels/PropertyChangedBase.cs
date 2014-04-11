@@ -8,7 +8,7 @@ using FestApp.Utils;
 
 namespace FestApp.ViewModels
 {
-    abstract class PropertyChangedBase : INotifyPropertyChanged
+    public abstract class PropertyChangedBase : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
 

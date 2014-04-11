@@ -21,7 +21,7 @@ namespace FestApp
             InitializeComponent();
 
             // Set the data context of the listbox control to the sample data
-            DataContext = App.ViewModel;
+            DataContext = new ViewModels.DesignerMainPage();
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
@@ -45,6 +45,11 @@ namespace FestApp
             if (!App.ViewModel.IsDataLoaded) {
                 App.ViewModel.LoadData();
             }
+        }
+
+        private void TextBlock_Tap(object sender, GestureEventArgs e)
+        {
+            var gig = (sender as FrameworkElement).DataContext as ViewModels.MainPage.GigItem;
         }
     }
 }
