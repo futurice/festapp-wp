@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B7722155-F5CC-4AC4-ADF6-4583AB8966F3}</ProjectGuid>
+    <ProjectGuid>{0E52FD6D-776D-48A0-992A-A4E5A4FC1093}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -16,7 +16,8 @@
     <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>fi%3bfi-FI</SupportedCultures>
+    <SupportedCultures>
+    </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>FestApp.xap</XapFilename>
@@ -24,9 +25,6 @@
     <SilverlightAppEntry>FestApp.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,162 +48,59 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight.Extras.WP71, Version=4.1.27.22669, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\sl4-wp71\GalaSoft.MvvmLight.Extras.WP71.dll</HintPath>
-    </Reference>
-    <Reference Include="GalaSoft.MvvmLight.WP71, Version=4.1.27.22669, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\sl4-wp71\GalaSoft.MvvmLight.WP71.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\sl4-windowsphone71\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Phone" />
-    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>..\packages\SilverlightToolkitWP.4.2012.6.25\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\sl4-wp71\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\sl4-windowsphone71\System.Threading.Tasks.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\sl4-wp71\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
-    <Reference Include="System.Xml.XPath">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Libraries\Client\System.Xml.XPath.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Helpers\TimeStamp.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlToRichTextBox.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlTypeBase.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\AToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\BlockQuoteToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\BrToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\DefaultToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\DLToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\HToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\ImageToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\IToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\OLToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\StrongToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\TableToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\HtmlType\ULToXaml.cs" />
-    <Compile Include="HtmlToRichTextBox\IHtmlType.cs" />
-    <Compile Include="HtmlToRichTextBox\RichTextboxStyle.cs" />
-    <Compile Include="Model\PerformanceDay.cs" />
-    <Compile Include="Model\Stage.cs" />
-    <Compile Include="View\About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
+    <Compile Include="DetailsPage.xaml.cs">
+      <DependentUpon>DetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ArticleDetails.xaml.cs">
-      <DependentUpon>ArticleDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ArtistDetails.xaml.cs">
-      <DependentUpon>ArtistDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Artists.xaml.cs">
-      <DependentUpon>Artists.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Service\DataService.cs" />
-    <Compile Include="Model\Json\Artist.cs" />
-    <Compile Include="Model\Json\News.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\NavigationService.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\BasePage.cs" />
-    <Compile Include="View\MainPage.xaml.cs">
+    <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Schedule.xaml.cs">
-      <DependentUpon>Schedule.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="DetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Cache\Artist.json" />
-    <Content Include="Cache\News.json" />
-    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
-    <None Include="Properties\WMAppManifest.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\appIcon.png" />
-    <Content Include="Images\appTile.png" />
-    <Content Include="Images\bg_wp2.jpg" />
-    <Content Include="Model\BF.SL.HtmlToRichTextBox.dll" />
+    <Content Include="ApplicationIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SplashScreenImage.jpg" />
-    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="View\About.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ArticleDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ArtistDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Artists.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Schedule.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Artist\" />
+    <Content Include="Background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
@@ -217,6 +112,4 @@
   </Target>
   -->
   <ProjectExtensions />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
 </Project>
