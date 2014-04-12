@@ -116,6 +116,7 @@
     <Compile Include="DesignData\JsonLoader.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Pages\ArtistListPage.xaml.cs">
