@@ -1,4 +1,4 @@
-﻿<Application 
+<Application 
     x:Class="FestApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,6 +9,9 @@
     <!--Application Resources-->
     <Application.Resources>
         <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="#E7EBF3" EvenBrush="#D5D9E1" />
+        <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="Aqua" EvenBrush="AliceBlue" />
+        <utils:NullToInvisibleConverter x:Name="NullToInvisibleConverter" />
+        <utils:FalseToInvisibleConverter x:Name="FalseToInvisibleConverter" />
         
         <Style x:Name="PageStyle" TargetType="Grid">
             <Setter Property="Background" Value="#EFEFEF" />
