@@ -28,9 +28,9 @@ namespace FestApp
             InitializeComponent();
         }
 
-        public static void Open()
+        public static Uri GetPageUri(int artistIndex)
         {
-
+            return new Uri(string.Format("/Pages/ArtistPage.xaml?selectedItem={0}", artistIndex), UriKind.Relative);
         }
 
         // When page is navigated to set data context to selected item in list

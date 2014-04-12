@@ -49,6 +49,11 @@ namespace FestApp.Pages
             TestLoad();
         }
 
+        public Uri GetPageUri()
+        {
+            return new Uri(string.Format("/Pages/ArtistListPage.xaml"), UriKind.Relative);
+        }
+
         private void ArtistSelected(ArtistViewModel artist)
         {
             int index = App.ViewModel.Items.IndexOf(artist); // What if artist updates?
@@ -60,7 +65,7 @@ namespace FestApp.Pages
                 index = 1; // TODO remove
             }
 
-            NavigationService.Navigate(new Uri(string.Format("/Pages/ArtistPage.xaml?selectedItem={0}", index), UriKind.Relative));
+            NavigationService.Navigate(ArtistPage.GetPageUri(index));
         }
 
         private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)
