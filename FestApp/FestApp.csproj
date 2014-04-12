@@ -123,6 +123,7 @@
     <Compile Include="Controls\AsyncImage.xaml.cs">
       <DependentUpon>AsyncImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DesignData\JsonLoader.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
@@ -162,6 +163,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DesignData\artists.json" />
+    <Resource Include="DesignData\news.json" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
