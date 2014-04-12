@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\NewsItem.cs" />
+    <Compile Include="Models\Program.cs" />
     <Compile Include="Pages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>
