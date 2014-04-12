@@ -15,7 +15,7 @@ namespace FestApp.Selectors
         {
             var gig = (ViewModels.MainPage.GigItem)item;
 
-            return (gig.Index == 1) ? FirstTemplate : RestTemplate;
+            return FirstTemplate;
         }
     }
 }

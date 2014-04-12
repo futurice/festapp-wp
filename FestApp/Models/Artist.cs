@@ -41,7 +41,7 @@ namespace FestApp.Models
 
         public List<string> Albums { get; set; }
 
-        public string Highlights { get; set; }
+        public List<string> Highlights { get; set; }
 
         public string Youtube { get; set; }
 

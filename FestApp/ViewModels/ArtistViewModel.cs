@@ -76,6 +76,8 @@ namespace FestApp
             }
         }
 
+        public int ListIndex { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
