@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using FestApp.Utils;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace FestApp.ViewModels
 {
@@ -37,7 +39,6 @@ namespace FestApp.ViewModels
                     return timestamp.ToString("dd.MM hh:mm");
                 }
 
-                return "Something else";
             }
         }
 
@@ -63,7 +64,7 @@ namespace FestApp.ViewModels
 
                 if (timeUntilStart.Hours > 0)
                 {
-                    return " in " + (int)timeUntilStart.TotalHours + "h " + timeUntilStart.Minutes + "min";
+                    return " in " + (int)timeUntilStart.TotalHours + " hours " + timeUntilStart.Minutes + " minutes";
                 }
                 else
                 {
@@ -73,9 +74,69 @@ namespace FestApp.ViewModels
             }
         }
 
-        public ObservableCollection<GigItem> NextGigs { get; set; }
+        public async Task LoadData()
+        {
+            List<Models.NewsItem> newsItems;
 
-        public ObservableCollection<NewsItem> LatestNews { get; set; }
+            try
+            {
+                Debug.WriteLine("From Cache");
+                newsItems = await new DataLoader().Load<List<Models.NewsItem>>("news", LoadSource.CACHE);
+                PopulateNewsFromList(newsItems);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Warning: Could not load news items");
+            }
+
+            try
+            {
+                Debug.WriteLine("From Network");
+                newsItems = await new DataLoader().Load<List<Models.NewsItem>>("news", LoadSource.NETWORK);
+                PopulateNewsFromList(newsItems);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Warning: Could not load news items");
+            }
+
+            SetVMProperty(
+                () => NextGigs,
+ 
+                new List<GigItem>()
+                {
+                    new GigItem(new Models.Artist()
+                    {
+                        Name="Lily Allen",
+                        TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(15), 
+                        Stage="Stallman Stage",
+                    }, "Next Up: "),
+
+                    new GigItem(new Models.Artist()
+                    {
+                        Name="Anna Abreu",
+                        TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(90),
+                        Stage="Group Stage",
+                    }, "")
+                });
+
+
+        }
+
+        protected void PopulateNewsFromList(List<Models.NewsItem> newsItemsList)
+        {
+            var vmList = newsItemsList.
+                Select(x => new NewsItem(x)).
+                Take(2).
+                ToList();
+
+            SetVMProperty(() => LatestNews, vmList);
+
+        }
+
+        public List<GigItem> NextGigs { get; set; }
+
+        public List<NewsItem> LatestNews { get; set; }
     }
 
     class DesignerMainPage : MainPage
@@ -83,7 +144,7 @@ namespace FestApp.ViewModels
         public DesignerMainPage()
         {
 
-            NextGigs = new ObservableCollection<GigItem>()
+            NextGigs = new List<GigItem>()
             {
                 new GigItem(new Models.Artist()
                 {
@@ -100,26 +161,10 @@ namespace FestApp.ViewModels
                 }, "")
             };
 
-            LatestNews = new ObservableCollection<NewsItem>()
-            {
-                new NewsItem(new Models.NewsItem()
-                {
-                    Title="Everything works perfectly and everyone's happyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                    Time=DateTimeOffset.Now,
-                }),
+            PopulateNewsFromList(DesignData.JsonLoader.News());
+            
 
-                /*new NewsItem(new Models.NewsItem()
-                {
-                    Title="Something happened yesterday",
-                    Time=DateTimeOffset.Now - TimeSpan.FromDays(1),
-                }),
 
-                new NewsItem(new Models.NewsItem()
-                {
-                    Title="Something happened day before yesterday",
-                    Time=DateTimeOffset.Now - TimeSpan.FromDays(2),
-                }),*/
-            };
         }
 
         public GigItem TestItem { get { return NextGigs[0]; } }

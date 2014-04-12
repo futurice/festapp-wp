@@ -103,6 +103,7 @@ namespace FestApp
                 Debug.WriteLine("Could not load data"); // TODO
 
             }
+
         }
 
         private async Task CreateViewModels(List<Artist> artists)

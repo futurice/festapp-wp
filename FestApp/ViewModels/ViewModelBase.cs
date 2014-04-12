@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FestApp.Utils;
+using System.Windows.Threading;
 
 namespace FestApp.ViewModels
 {
@@ -16,7 +17,7 @@ namespace FestApp.ViewModels
             if (EqualityComparer<T>.Default.Equals(oldValue, newValue)) { return false; }
 
             this.SetPropertyValue(propertyExpr, newValue);
-            NotifyChanged(propertyExpr);
+            SmartDispatcher.BeginInvoke(() => NotifyChanged(propertyExpr));
             return true;
         }
 

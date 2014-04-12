@@ -15,13 +15,16 @@ namespace FestApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private ViewModels.MainPage _viewModel;
+
         // Constructor
         public MainPage()
         {
             InitializeComponent();
 
             // Set the data context of the listbox control to the sample data
-            DataContext = new ViewModels.DesignerMainPage();
+            _viewModel = new ViewModels.MainPage();
+            DataContext = _viewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
@@ -33,6 +36,9 @@ namespace FestApp
             if (!App.ViewModel.IsDataLoaded) {
                 App.ViewModel.LoadData();
             }
+
+            _viewModel.LoadData();
+            
         }
 
         private void TextBlock_Tap(object sender, GestureEventArgs e)

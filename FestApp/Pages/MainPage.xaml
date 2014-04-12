@@ -88,12 +88,12 @@
                 <TextBlock>News</TextBlock>
             </ContentControl>
         </StackPanel>
-
+    
         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="1" />
         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="3"/>
         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="1"/>
         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="3"/>
-
+     
     </Grid>
  
 </phone:PhoneApplicationPage>
