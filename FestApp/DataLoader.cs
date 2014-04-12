@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Threading;
 using System.Net.Http;
 using Windows.Storage;
+using FestApp.Utils;
 
 namespace FestApp
 {
@@ -26,7 +27,32 @@ namespace FestApp
     {
         private static HttpClient httpClient = new HttpClient();
 
+        private static Dictionary<string, LazyAsync<BitmapImage>> _images = new Dictionary<string, LazyAsync<BitmapImage>>();
+
         public static async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
+        {
+            LazyAsync<BitmapImage> la;
+            lock (_images)
+            {
+                if (!_images.TryGetValue(path, out la))
+                {
+                    la = new LazyAsync<BitmapImage>(_ => LoadImageRaw(path, _));
+                    _images[path] = la;
+                }
+            }
+
+            var bitmap = await la.Get(ct);
+
+            // Don't keep bitmaps in memory (a weak ref would be better...)
+            lock (_images)
+            {
+                _images.Remove(path);
+            }
+
+            return bitmap;
+        }
+
+        private static async Task<BitmapImage> LoadImageRaw(string path, CancellationToken ct)
         {
             string url = Config.ServerUrl + path;
             Debug.WriteLine("Loading image " + url);
@@ -34,10 +60,10 @@ namespace FestApp
             Stream stream;
             while ((stream = await Cache.OpenFileForReadIfExtists(path)) == null)
             {
-                using (var netStream = await httpClient.GetStreamAsync(url))
+                using (var response = await httpClient.GetAsync(url, ct))
                 using (var diskStream = await Cache.OpenFileForWrite(path))
                 {
-                    await netStream.CopyToAsync(diskStream);
+                    await response.Content.CopyToAsync(diskStream);
                 }                
             }
 
