@@ -12,37 +12,13 @@ using System.Windows.Data;
 
 namespace FestApp.Pages
 {
-    public class EvenToBackgroundConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            Color color;
-
-            if ((bool)value)
-            {
-                color = Color.FromArgb(1, 1, 0, 0);
-            }
-            else
-            {
-                color = Color.FromArgb(1, 1, 0, 1);
-            }
-
-            return new SolidColorBrush(color);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class DesignerNews
     {
         public class NewsItem
         {
             public string Title { get; set; }
             public string Time { get; set; }
-            public bool IsEven { get; set; }
+            public int ListIndex { get; set; }
         }
 
         public List<NewsItem> News { get; set; }
@@ -53,26 +29,26 @@ namespace FestApp.Pages
             News.Add(new NewsItem()
             {
                 Title = "New First",
-                Time = "10.10.2010",
-                IsEven = false
+                Time = "Fri 10.10.2010",
+                ListIndex = 0
             });
             News.Add(new NewsItem()
             {
                 Title = "New First",
-                Time = "10.10.2010",
-                IsEven = true
+                Time = "Fri 10.10.2010",
+                ListIndex = 1
             });
             News.Add(new NewsItem()
             {
                 Title = "New First",
-                Time = "10.10.2010",
-                IsEven = false
+                Time = "Fri 10.10.2010",
+                ListIndex = 2
             });
             News.Add(new NewsItem()
             {
                 Title = "New First",
-                Time = "10.10.2010",
-                IsEven = true
+                Time = "Fri 10.10.2010",
+                ListIndex = 3
             });
         }
     }
