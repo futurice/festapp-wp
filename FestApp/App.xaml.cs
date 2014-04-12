@@ -56,6 +56,10 @@ namespace FestApp
             // Phone-specific initialization
             InitializePhoneApplication();
 
+            // TODO implement something fancier if using external images at some stage
+            Controls.AsyncImage.ImageFactory = async (o, ct) =>
+                (ImageSource) (await DataLoader.LoadImage((string)o, ct));
+
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached) {
                 // Display the current frame rate counters.
