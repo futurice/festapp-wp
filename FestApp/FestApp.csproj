@@ -155,6 +155,7 @@
     <Compile Include="Utils\ListItemAlternateColorConverter.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />
+    <Compile Include="ViewModels\ArtistListViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

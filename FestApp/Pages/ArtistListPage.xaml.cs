@@ -9,40 +9,30 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using FestApp.Utils;
+using FestApp.ViewModels;
 
 namespace FestApp.Pages
 {
-    public class DesignerArtistListVM
+    public class DesignerArtistListVM : ArtistListViewModel
     {
         public DesignerArtistListVM()
         {
-            ArtistGroups = AlphaKeyGroup<ArtistViewModel>.CreateGroups(new ArtistViewModel[] {
+            GetData(new ArtistViewModel[] {
                 new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" },
                 new ArtistViewModel() { Name = "Matti Suomalainen" }, new ArtistViewModel() { Name = "Matti MuuMies" }
-            }, System.Threading.Thread.CurrentThread.CurrentUICulture,
-                artist => artist.Name, true);
-
-            foreach (AlphaKeyGroup<ArtistViewModel> group in ArtistGroups)
-            {
-                int index = 0;
-
-                foreach (ArtistViewModel artist in group)
-                {
-                    artist.ListIndex = index++;
-                }
-            }
+            });
         }
-
-        public List<AlphaKeyGroup<ArtistViewModel>> ArtistGroups { get; set; }
     }
 
     public partial class ArtistListPage : PhoneApplicationPage
     {
+        private ArtistListViewModel _viewModel;
+
         public ArtistListPage()
         {
             InitializeComponent();
-            DataContext = new DesignerArtistListVM();
-            TestList.ItemsSource = new DesignerArtistListVM().ArtistGroups;
+            _viewModel = new ArtistListViewModel();
+            DataContext = _viewModel;
         }
     }
 }

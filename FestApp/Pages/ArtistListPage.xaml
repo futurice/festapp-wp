@@ -60,6 +60,7 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <phone:LongListSelector x:Name="TestList"
+                  ItemsSource="{Binding ArtistGroups}"
                   JumpListStyle="{StaticResource ArtistJumpListStyle}"
                   Background="Transparent"
                   LayoutMode="List"
@@ -69,7 +70,8 @@
                 
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                        <Grid Background="{Binding ListIndex,Converter={StaticResource AlternateListColoring}}">
+                        <Grid Style="{StaticResource ListItemContainerStyle}"
+                              Background="{Binding ListIndex,Converter={StaticResource AlternateListColoring}}">
                             <TextBlock Text="{Binding Name}"
                                Style="{StaticResource ListTextStyle}" />
                         </Grid>

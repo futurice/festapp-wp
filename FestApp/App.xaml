@@ -22,10 +22,13 @@
         <Style x:Name="BaseLargeTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black" />
         </Style>
+        <Style x:Name="ListItemContainerStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="5,0,5,0"/>
+        </Style>
         <Style x:Name="ListTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="Black" />
-            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="Margin" Value="10,10,10,10"/>
         </Style>
     </Application.Resources>
 
