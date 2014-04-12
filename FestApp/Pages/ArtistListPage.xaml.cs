@@ -8,12 +8,21 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
+using FestApp.Utils;
 
 namespace FestApp.Pages
 {
-    public class DummyArtistListVM
+    public class DesignerArtistListVM
     {
-        public ObservableCollection<ArtistGroupViewModel> ArtistGroups { get; set; }
+        public DesignerArtistListVM()
+        {
+            ArtistGroups = AlphaKeyGroup<ArtistViewModel>.CreateGroups(new ArtistViewModel[] {
+                new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" }
+            }, System.Threading.Thread.CurrentThread.CurrentUICulture,
+                artist => artist.Name, true);
+        }
+
+        public List<AlphaKeyGroup<ArtistViewModel>> ArtistGroups { get; set; }
     }
 
     public partial class ArtistListPage : PhoneApplicationPage
@@ -21,27 +30,8 @@ namespace FestApp.Pages
         public ArtistListPage()
         {
             InitializeComponent();
-
-            var dummyVM = new DummyArtistListVM()
-            {
-                ArtistGroups = new ObservableCollection<ArtistGroupViewModel>()
-            };
-
-            dummyVM.ArtistGroups.Add(new ArtistGroupViewModel(new ArtistViewModel[] {
-                new ArtistViewModel() { Name = "Test Artist" }, new ArtistViewModel() { Name = "Second Artist" },
-                new ArtistViewModel() { Name = "Test Artist 2" }})
-            {
-                Key = "T"
-            });
-
-            dummyVM.ArtistGroups.Add(new ArtistGroupViewModel(new ArtistViewModel[] {
-                new ArtistViewModel() { Name = "Test Artist" }, new ArtistViewModel() { Name = "Second Artist" },
-                new ArtistViewModel() { Name = "Test Artist 2" }})
-            {
-                Key = "U"
-            });
-
-            DataContext = dummyVM;
+            DataContext = new DesignerArtistListVM();
+            TestList.ItemsSource = new DesignerArtistListVM().ArtistGroups;
         }
     }
 }

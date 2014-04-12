@@ -7,6 +7,12 @@
 
     <!--Application Resources-->
     <Application.Resources>
+        <Style x:Name="BaseTextStyle" BasedOn="{StaticResource PhoneTextNormalStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Name="BaseLargeTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
