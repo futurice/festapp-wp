@@ -2,16 +2,30 @@
     x:Class="FestApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utils="clr-namespace:FestApp.Utils"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
     <!--Application Resources-->
     <Application.Resources>
+        <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="Aqua" EvenBrush="AliceBlue" />
+        
+        <Style x:Name="PageStyle" TargetType="Grid">
+            <Setter Property="Background" Value="#EFEFEF" />
+        </Style>
+        <Style x:Name="TextTitle1Style" BasedOn="{StaticResource PhoneTextTitle1Style}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
         <Style x:Name="BaseTextStyle" BasedOn="{StaticResource PhoneTextNormalStyle}" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style x:Name="BaseLargeTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+        <Style x:Name="ListTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="0,10,0,10"/>
         </Style>
     </Application.Resources>
 

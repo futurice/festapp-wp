@@ -152,6 +152,7 @@
     <Compile Include="Utils\AlphaKeyGroup.cs" />
     <Compile Include="Utils\AsyncBitmapLoader.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
+    <Compile Include="Utils\ListItemAlternateColorConverter.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />

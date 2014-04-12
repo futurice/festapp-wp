@@ -17,9 +17,20 @@ namespace FestApp.Pages
         public DesignerArtistListVM()
         {
             ArtistGroups = AlphaKeyGroup<ArtistViewModel>.CreateGroups(new ArtistViewModel[] {
-                new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" }
+                new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" },
+                new ArtistViewModel() { Name = "Matti Suomalainen" }, new ArtistViewModel() { Name = "Matti MuuMies" }
             }, System.Threading.Thread.CurrentThread.CurrentUICulture,
                 artist => artist.Name, true);
+
+            foreach (AlphaKeyGroup<ArtistViewModel> group in ArtistGroups)
+            {
+                int index = 0;
+
+                foreach (ArtistViewModel artist in group)
+                {
+                    artist.ListIndex = index++;
+                }
+            }
         }
 
         public List<AlphaKeyGroup<ArtistViewModel>> ArtistGroups { get; set; }
