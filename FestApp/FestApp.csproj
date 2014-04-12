@@ -142,6 +142,7 @@
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Utils\ListItemAlternateColorConverter.cs" />
     <Compile Include="Utils\LazyAsync.cs" />
+    <Compile Include="Utils\NullToInvisibleConverter.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
     <Compile Include="Utils\Refreshable.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />

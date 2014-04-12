@@ -119,7 +119,9 @@ namespace FestApp
                 {
                     Name = artist.Name,
                     Description = artist.Content,
-                    Photo = photo
+                    Photo = photo,
+                    SpotifyUrl = artist.Spotify,
+                    //YoutubeUrl = artist.Youtube
                 });
             }
         }

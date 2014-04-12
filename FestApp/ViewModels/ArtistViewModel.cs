@@ -17,10 +17,7 @@ namespace FestApp
     public class ArtistViewModel : INotifyPropertyChanged
     {
         private string _name;
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
+
         public string Name
         {
             get
@@ -37,10 +34,7 @@ namespace FestApp
         }
 
         private string _description;
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
+
         public string Description
         {
             get
@@ -57,10 +51,7 @@ namespace FestApp
         }
 
         private BitmapImage _photo;
-        /// <summary>
-        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
-        /// </summary>
-        /// <returns></returns>
+
         public BitmapImage Photo
         {
             get
@@ -72,6 +63,42 @@ namespace FestApp
                 if (value != _photo) {
                     _photo = value;
                     NotifyPropertyChanged("Photo");
+                }
+            }
+        }
+
+        private string _youtubeUrl = null;
+
+        public string YoutubeUrl
+        {
+            get
+            {
+                return _youtubeUrl;
+            }
+            set
+            {
+                if (value != _youtubeUrl)
+                {
+                    _youtubeUrl = value;
+                    NotifyPropertyChanged("YoutubeUrl");
+                }
+            }
+        }
+
+        private string _spotifyUrl = null;
+
+        public string SpotifyUrl
+        {
+            get
+            {
+                return _spotifyUrl;
+            }
+            set
+            {
+                if (value != _spotifyUrl)
+                {
+                    _spotifyUrl = value;
+                    NotifyPropertyChanged("SpotifyUrl");
                 }
             }
         }

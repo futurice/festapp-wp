@@ -9,6 +9,8 @@
     <!--Application Resources-->
     <Application.Resources>
         <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="Aqua" EvenBrush="AliceBlue" />
+        <utils:NullToInvisibleConverter x:Name="NullToInvisibleConverter" />
+        <utils:FalseToInvisibleConverter x:Name="FalseToInvisibleConverter" />
         
         <Style x:Name="PageStyle" TargetType="Grid">
             <Setter Property="Background" Value="#EFEFEF" />
