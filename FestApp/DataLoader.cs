@@ -38,116 +38,85 @@ namespace FestApp
             string url = Config.ServerUrl + path;
             Debug.WriteLine("Loading image " + url);
 
-            using (Stream stream = await httpClient.GetStreamAsync(url))
+            Stream stream;
+            while ((stream = await Cache.OpenFileForReadIfExtists(path)) == null)
             {
-                BitmapImage bitmapImage = new BitmapImage() { CreateOptions = BitmapCreateOptions.BackgroundCreation };
-                bitmapImage.SetSource(stream);
-                return bitmapImage;
+                using (var netStream = await httpClient.GetStreamAsync(url))
+                using (var diskStream = await Cache.OpenFileForWrite(path))
+                {
+                    await netStream.CopyToAsync(diskStream);
+                }                
             }
+
+            return await Utils.AsyncBitmapLoader.LoadFromStreamAsync(stream);
         }
 
         public async Task<T> Load<T>(string apiPath, LoadSource source)
         {
+            var path = Config.ServerApiPath + apiPath;
+
             switch (source)
             {
                 case LoadSource.NETWORK:
-                    return await LoadFromNet<T>(apiPath);
+                    return await LoadFromNet<T>(path);
                 case LoadSource.CACHE:
-                    return await LoadFromCache<T>(apiPath);
+                    return await LoadFromCache<T>(path);
                 case LoadSource.STATIC_CACHE:
-                    return await LoadFromStaticCache<T>(apiPath);
+                    return await LoadFromStaticCache<T>(path);
                 default:
                     throw new Exception("Unknown source");
             }
         }
 
-        public async Task<T> LoadFromCache<T>(string apiPath)
+        private async Task<T> LoadFromCache<T>(string path)
         {
-            try
+            var cacheStream = await Cache.OpenFileForReadIfExtists(path);
+            if (cacheStream == null)
             {
-                StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-                StorageFolder folder = await local.GetFolderAsync(cacheFolder);
-                StorageFile cacheFile = await folder.GetFileAsync(ApiPathToFilename(apiPath));
-
-                using (var stream = await cacheFile.OpenStreamForReadAsync())
-                using (var reader = new StreamReader(stream))
-                using (JsonReader jsonReader = new JsonTextReader(reader))
-                {
-                    var serializer = JsonSerializer.Create();
-                    return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
-                }
+                Debug.WriteLine("Not cached: " + path);
+                return await LoadFromStaticCache<T>(path);
             }
-            catch (FileNotFoundException) { }
 
-            Debug.WriteLine("Not cached: " + apiPath);
-            return await LoadFromStaticCache<T>(apiPath);
-        }
-
-        public async Task<T> LoadFromStaticCache<T>(string apiPath)
-        {
-            try
+            using (cacheStream)
             {
-                var cachedResource = Application.GetResourceStream(new Uri("Cache/" + ApiPathToFilename(apiPath), UriKind.Relative));
-
-                using (StreamReader reader = new StreamReader(cachedResource.Stream))
-                using (JsonReader jsonReader = new JsonTextReader(reader))
-                {
-                    var serializer = JsonSerializer.Create();
-                    return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
-                }
+                return LoadJson<T>(cacheStream);
             }
-            catch (IOException) { }
-
-            Debug.WriteLine("Warning: No static cache for " + apiPath);
-            return default(T);
         }
 
-        private string ApiPathToFilename(string apiPath)
+        private Task<T> LoadFromStaticCache<T>(string path)
         {
-            return apiPath.Replace('/', '_');
+            // TODO implement
+            Debug.WriteLine("Warning: No static cache for " + path);
+            return Task.FromResult(default(T));
         }
 
-        public async Task<T> LoadFromNet<T>(string apiPath)
+        // Load from net and store to cache
+        private async Task<T> LoadFromNet<T>(string path)
         {
-            string url = Config.ServerUrl + Config.ServerApiPath + apiPath;
+            string url = Config.ServerUrl + path;
 
             Debug.WriteLine("Loading " + url);
 
-            string json = await httpClient.GetStringAsync(url);
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            StorageFolder folder = await local.CreateFolderAsync(cacheFolder, CreationCollisionOption.OpenIfExists);
-            StorageFile cacheFile = await folder.CreateFileAsync(ApiPathToFilename(apiPath),
-                CreationCollisionOption.ReplaceExisting);
-
-            using (var stream = await cacheFile.OpenStreamForWriteAsync())
-            using (var writer = new StreamWriter(stream))
+            using (var netStream = await httpClient.GetStreamAsync(url))
+            using (var diskStream = await Cache.OpenFileForWrite(path))
             {
-                writer.Write(json);
+                await netStream.CopyToAsync(diskStream);
             }
 
-            Debug.WriteLine("Cached " + apiPath);
+            using (var cacheStream = await Cache.OpenFileForReadIfExtists(path))
+            {
+                return LoadJson<T>(cacheStream);
+            }
+        }
 
-            return JsonConvert.DeserializeObject<T>(json);
-
-            /*
-            using (Stream stream = await httpClient.GetStreamAsync(url))
-            using (StreamReader reader = new StreamReader(stream))
+        private T LoadJson<T>(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
             using (JsonReader jsonReader = new JsonTextReader(reader))
             {
                 var serializer = JsonSerializer.Create();
-                return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
+                return serializer.Deserialize<T>(jsonReader);
             }
-            */
-        }
-
-        void web_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void test(object sender, OpenReadCompletedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

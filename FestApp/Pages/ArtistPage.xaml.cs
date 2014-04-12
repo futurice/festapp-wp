@@ -33,4 +33,13 @@ namespace FestApp
             }
         }
     }
+
+    class DesignerArtist : ArtistViewModel
+    {
+        public DesignerArtist()
+        {
+            Name = "Test artist";
+
+        }
+    }
 }
