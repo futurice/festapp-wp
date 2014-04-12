@@ -26,7 +26,8 @@ namespace FestApp
             string url = Config.ServerUrl + path;
             WebRequest req = WebRequest.CreateHttp(url);
 
-            using (var response = await req.GetResponseAsync())
+            return null;
+            /*using (var response = await req.GetResponseAsync())
             using (var stream = response.GetResponseStream())
             {
                 MemoryStream memStream = new MemoryStream();
@@ -43,7 +44,7 @@ namespace FestApp
                 BitmapImage bitmapImage = new BitmapImage() { CreateOptions = BitmapCreateOptions.BackgroundCreation };
                 bitmapImage.SetSource(memStream);
                 return bitmapImage;
-            }
+            }*/
         }
 
         public async Task<T> Load<T>(string apiPath, LoadSource source)
@@ -71,6 +72,8 @@ namespace FestApp
 
         public async Task<T> LoadFromNet<T>(string apiPath)
         {
+            return default(T);
+            /*
             string url = Config.ServerUrl + "api/" + apiPath;
             WebRequest req = WebRequest.CreateHttp(url);
             using (WebResponse response = await req.GetResponseAsync())
@@ -81,6 +84,7 @@ namespace FestApp
                 var serializer = JsonSerializer.CreateDefault();
                 return serializer.Deserialize<T>(jsonReader);
             }
+             * */
         }
 
         void web_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
