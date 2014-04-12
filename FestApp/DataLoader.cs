@@ -18,7 +18,8 @@ namespace FestApp
     public enum LoadSource
     {
         NETWORK,
-        CACHE
+        CACHE,
+        STATIC_CACHE
     }
 
     public class DataLoader
@@ -50,9 +51,11 @@ namespace FestApp
             switch (source)
             {
                 case LoadSource.NETWORK:
-                    return await LoadFromNet<T>(apiPath) ;
+                    return await LoadFromNet<T>(apiPath);
                 case LoadSource.CACHE:
                     return await LoadFromCache<T>(apiPath);
+                case LoadSource.STATIC_CACHE:
+                    return await LoadFromStaticCache<T>(apiPath);
                 default:
                     throw new Exception("Unknown source");
             }
@@ -60,12 +63,48 @@ namespace FestApp
 
         public async Task<T> LoadFromCache<T>(string apiPath)
         {
-            var cachedResource = Application.GetResourceStream(new Uri("Cache/" + apiPath, UriKind.Relative));
-            using (StreamReader reader = new StreamReader(cachedResource.Stream))
+            try
             {
-                string json = await reader.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<T>(json);
+                StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+                StorageFolder folder = await local.GetFolderAsync(cacheFolder);
+                StorageFile cacheFile = await folder.GetFileAsync(ApiPathToFilename(apiPath));
+
+                using (var stream = await cacheFile.OpenStreamForReadAsync())
+                using (var reader = new StreamReader(stream))
+                using (JsonReader jsonReader = new JsonTextReader(reader))
+                {
+                    var serializer = JsonSerializer.Create();
+                    return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
+                }
             }
+            catch (FileNotFoundException) { }
+
+            Debug.WriteLine("Not cached: " + apiPath);
+            return await LoadFromStaticCache<T>(apiPath);
+        }
+
+        public async Task<T> LoadFromStaticCache<T>(string apiPath)
+        {
+            try
+            {
+                var cachedResource = Application.GetResourceStream(new Uri("Cache/" + ApiPathToFilename(apiPath), UriKind.Relative));
+
+                using (StreamReader reader = new StreamReader(cachedResource.Stream))
+                using (JsonReader jsonReader = new JsonTextReader(reader))
+                {
+                    var serializer = JsonSerializer.Create();
+                    return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
+                }
+            }
+            catch (IOException) { }
+
+            Debug.WriteLine("Warning: No static cache for " + apiPath);
+            return default(T);
+        }
+
+        private string ApiPathToFilename(string apiPath)
+        {
+            return apiPath.Replace('/', '_');
         }
 
         public async Task<T> LoadFromNet<T>(string apiPath)
@@ -75,13 +114,19 @@ namespace FestApp
             Debug.WriteLine("Loading " + url);
 
             string json = await httpClient.GetStringAsync(url);
-            /*
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
             StorageFolder folder = await local.CreateFolderAsync(cacheFolder, CreationCollisionOption.OpenIfExists);
-            StorageFile cacheFile = await local.CreateFileAsync("cache_" + apiPath, CreationCollisionOption.ReplaceExisting);
+            StorageFile cacheFile = await folder.CreateFileAsync(ApiPathToFilename(apiPath),
+                CreationCollisionOption.ReplaceExisting);
 
-            using (var stream
-            */
+            using (var stream = await cacheFile.OpenStreamForWriteAsync())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(json);
+            }
+
+            Debug.WriteLine("Cached " + apiPath);
+
             return JsonConvert.DeserializeObject<T>(json);
 
             /*
@@ -90,7 +135,7 @@ namespace FestApp
             using (JsonReader jsonReader = new JsonTextReader(reader))
             {
                 var serializer = JsonSerializer.Create();
-                return await Task.Run(() => serializer.Deserialize<T>(jsonReader));
+                return await Task.Run(() => serializer.Deserialize<T>(jsonReader)); // TODO remove await
             }
             */
         }

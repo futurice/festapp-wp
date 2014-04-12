@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using FestApp.Models;
 using System.Net;
+using System.Threading.Tasks;
 
 
 namespace FestApp
@@ -65,14 +66,27 @@ namespace FestApp
 
             try
             {
+                Debug.WriteLine("From cache");
+                artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.CACHE);
+                await CreateViewModels(artists);
+            } catch (Exception) {
+                Debug.WriteLine("Warning: loading from cache caused an error");
+            }
+            
+            try {
+                Debug.WriteLine("From network");
                 artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.NETWORK);
+                await CreateViewModels(artists);
+                this.IsDataLoaded = true;
             }
-            catch (WebException e)
+            catch (Exception)
             {
-                Debug.WriteLine("Error");
-                Debugger.Break();
+                Debug.WriteLine("Could not load data"); // TODO
             }
+        }
 
+        private async Task CreateViewModels(List<Artist> artists)
+        {
             this.Items.Clear();
 
             foreach (Artist artist in artists)
@@ -83,11 +97,11 @@ namespace FestApp
                 {
                     try
                     {
-                        photo = await new DataLoader().LoadImage(artist.Picture);
+                        photo = await new DataLoader().LoadImage(artist.Picture); // TODO wait for images later
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("Could not load image: " + artist.Picture);
+                        Debug.WriteLine("Warning: Could not load image: " + artist.Picture);
                     }
                 }
 
@@ -98,14 +112,6 @@ namespace FestApp
                     Photo = photo
                 });
             }
-
-            /*
-            for (int i = 1; i < 21; i++) {
-                this.Items.Add(new ArtistViewModel() { LineOne = string.Format("bändi {0}", i), LineTwo = "Maecenas praesent accumsan bibendum", LineThree = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
-            }
-            */
-
-            this.IsDataLoaded = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
