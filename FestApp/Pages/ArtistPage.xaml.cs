@@ -28,6 +28,11 @@ namespace FestApp
             InitializeComponent();
         }
 
+        public static void Open()
+        {
+
+        }
+
         // When page is navigated to set data context to selected item in list
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
