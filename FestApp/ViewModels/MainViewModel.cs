@@ -19,6 +19,12 @@ using System.Threading.Tasks;
 
 namespace FestApp
 {
+    public class ArtistGroupViewModel : ObservableCollection<ArtistViewModel>
+    {
+        public string Key { get; set; }
+        public delegate string GetKeyDelegate(ArtistViewModel artist);
+    }
+
     public class MainViewModel : INotifyPropertyChanged
     {
         public MainViewModel()
@@ -51,6 +57,12 @@ namespace FestApp
             }
         }
 
+        public bool IsDataLoading
+        {
+            get;
+            private set;
+        }
+
         public bool IsDataLoaded
         {
             get;
@@ -62,6 +74,8 @@ namespace FestApp
         /// </summary>
         public async void LoadData()
         {
+            IsDataLoading = true;
+
             List<Artist> artists;
 
             try
@@ -113,6 +127,8 @@ namespace FestApp
                 });
             }
         }
+
+        //public ObservableCollection<ArtistGroup>
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)

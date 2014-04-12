@@ -81,15 +81,7 @@ namespace FestApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            try
-            {
-                ViewModel.LoadData();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Could not load data");
-                Debugger.Break();
-            }
+            ViewModel.LoadData();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -97,7 +89,8 @@ namespace FestApp
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded) {
+            if (!App.ViewModel.IsDataLoaded && !App.ViewModel.IsDataLoading)
+            {
                 App.ViewModel.LoadData();
             }
         }

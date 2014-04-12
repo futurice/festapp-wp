@@ -126,6 +126,9 @@
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
+    <Compile Include="Pages\ArtistList.xaml.cs">
+      <DependentUpon>ArtistList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Controls\AsyncImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ArtistList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
