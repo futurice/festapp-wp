@@ -5,7 +5,6 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -26,8 +25,6 @@ namespace FestApp
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
-        
-
         // Load data for the ViewModel Items
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -40,10 +37,9 @@ namespace FestApp
                 // TODO exceptions?
                 await _viewModel.LoadData();
             }
-            
         }
 
-        private void TextBlock_Tap(object sender, GestureEventArgs e)
+        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var gig = (sender as FrameworkElement).DataContext as ViewModels.MainPage.GigItem;
         }
