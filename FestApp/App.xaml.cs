@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Diagnostics;
 
 namespace FestApp
 {
@@ -80,7 +81,15 @@ namespace FestApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            ViewModel.LoadData();
+            try
+            {
+                ViewModel.LoadData();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Could not load data");
+                Debugger.Break();
+            }
         }
 
         // Code to execute when the application is activated (brought to foreground)

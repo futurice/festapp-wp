@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using FestApp.Models;
+using System.Net;
 
 
 namespace FestApp
@@ -60,17 +61,41 @@ namespace FestApp
         /// </summary>
         public async void LoadData()
         {
-            List<Artist> artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.NETWORK);
+            List<Artist> artists;
+
+            try
+            {
+                artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.NETWORK);
+            }
+            catch (WebException e)
+            {
+                Debug.WriteLine("Error");
+                Debugger.Break();
+            }
 
             this.Items.Clear();
 
             foreach (Artist artist in artists)
             {
+                BitmapImage photo = null;
+
+                if (!string.IsNullOrWhiteSpace(artist.Picture))
+                {
+                    try
+                    {
+                        photo = await new DataLoader().LoadImage(artist.Picture);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Could not load image: " + artist.Picture);
+                    }
+                }
+
                 this.Items.Add(new ArtistViewModel()
                 {
                     Name = artist.Name,
                     Description = artist.Content,
-                    Photo = await new DataLoader().LoadImage(artist.Picture)
+                    Photo = photo
                 });
             }
 

@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Threading;
+using System.Net.Http;
+using Windows.Storage;
 
 namespace FestApp
 {
@@ -21,30 +23,26 @@ namespace FestApp
 
     public class DataLoader
     {
+        private const string cacheFolder = "Cache";
+
+        private HttpClient httpClient;
+
+        public DataLoader()
+        {
+            httpClient = new HttpClient();
+        }
+
         public async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
         {
             string url = Config.ServerUrl + path;
-            WebRequest req = WebRequest.CreateHttp(url);
+            Debug.WriteLine("Loading image " + url);
 
-            return null;
-            /*using (var response = await req.GetResponseAsync())
-            using (var stream = response.GetResponseStream())
+            using (Stream stream = await httpClient.GetStreamAsync(url))
             {
-                MemoryStream memStream = new MemoryStream();
-                if (ct.HasValue)
-                {
-                    await stream.CopyToAsync(memStream, 4096, ct.Value);
-                }
-                else
-                {
-                    await stream.CopyToAsync(memStream);
-                }
-                memStream.Seek(0, SeekOrigin.Begin);
-
                 BitmapImage bitmapImage = new BitmapImage() { CreateOptions = BitmapCreateOptions.BackgroundCreation };
-                bitmapImage.SetSource(memStream);
+                bitmapImage.SetSource(stream);
                 return bitmapImage;
-            }*/
+            }
         }
 
         public async Task<T> Load<T>(string apiPath, LoadSource source)
@@ -72,19 +70,29 @@ namespace FestApp
 
         public async Task<T> LoadFromNet<T>(string apiPath)
         {
-            return default(T);
+            string url = Config.ServerUrl + Config.ServerApiPath + apiPath;
+
+            Debug.WriteLine("Loading " + url);
+
+            string json = await httpClient.GetStringAsync(url);
             /*
-            string url = Config.ServerUrl + "api/" + apiPath;
-            WebRequest req = WebRequest.CreateHttp(url);
-            using (WebResponse response = await req.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            StorageFolder folder = await local.CreateFolderAsync(cacheFolder, CreationCollisionOption.OpenIfExists);
+            StorageFile cacheFile = await local.CreateFileAsync("cache_" + apiPath, CreationCollisionOption.ReplaceExisting);
+
+            using (var stream
+            */
+            return JsonConvert.DeserializeObject<T>(json);
+
+            /*
+            using (Stream stream = await httpClient.GetStreamAsync(url))
             using (StreamReader reader = new StreamReader(stream))
             using (JsonReader jsonReader = new JsonTextReader(reader))
             {
-                var serializer = JsonSerializer.CreateDefault();
-                return serializer.Deserialize<T>(jsonReader);
+                var serializer = JsonSerializer.Create();
+                return await Task.Run(() => serializer.Deserialize<T>(jsonReader));
             }
-             * */
+            */
         }
 
         void web_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
