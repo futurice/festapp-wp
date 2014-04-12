@@ -86,7 +86,7 @@ namespace FestApp
             try
             {
                 Debug.WriteLine("From cache");
-                artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.CACHE);
+                artists = await DataLoader.Load<List<Artist>>("artists", LoadSource.CACHE);
                 await CreateViewModels(artists);
             } catch (Exception) {
                 Debug.WriteLine("Warning: loading from cache caused an error");
@@ -94,7 +94,7 @@ namespace FestApp
             
             try {
                 Debug.WriteLine("From network");
-                artists = await new DataLoader().Load<List<Artist>>("artists", LoadSource.NETWORK);
+                artists = await DataLoader.Load<List<Artist>>("artists", LoadSource.NETWORK);
                 await CreateViewModels(artists);
                 this.IsDataLoaded = true;
             }
@@ -118,7 +118,7 @@ namespace FestApp
                 {
                     try
                     {
-                        photo = await new DataLoader().LoadImage(artist.Picture); // TODO wait for images later
+                        photo = await DataLoader.LoadImage(artist.Picture); // TODO wait for images later
                     }
                     catch (Exception ex)
                     {

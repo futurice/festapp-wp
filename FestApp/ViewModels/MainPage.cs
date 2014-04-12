@@ -81,7 +81,7 @@ namespace FestApp.ViewModels
             try
             {
                 Debug.WriteLine("From Cache");
-                newsItems = await new DataLoader().Load<List<Models.NewsItem>>("news", LoadSource.CACHE);
+                newsItems = await DataLoader.Load<List<Models.NewsItem>>("news", LoadSource.CACHE);
                 PopulateNewsFromList(newsItems);
             }
             catch (Exception e)
@@ -92,7 +92,7 @@ namespace FestApp.ViewModels
             try
             {
                 Debug.WriteLine("From Network");
-                newsItems = await new DataLoader().Load<List<Models.NewsItem>>("news", LoadSource.NETWORK);
+                newsItems = await DataLoader.Load<List<Models.NewsItem>>("news", LoadSource.NETWORK);
                 PopulateNewsFromList(newsItems);
             }
             catch (Exception e)

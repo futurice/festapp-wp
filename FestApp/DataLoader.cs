@@ -22,18 +22,13 @@ namespace FestApp
         STATIC_CACHE
     }
 
-    public class DataLoader
+    public static class DataLoader
     {
         private const string cacheFolder = "Cache";
 
-        private HttpClient httpClient;
+        private static HttpClient httpClient = new HttpClient();
 
-        public DataLoader()
-        {
-            httpClient = new HttpClient();
-        }
-
-        public async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
+        public static async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
         {
             string url = Config.ServerUrl + path;
             Debug.WriteLine("Loading image " + url);
@@ -51,7 +46,7 @@ namespace FestApp
             return await Utils.AsyncBitmapLoader.LoadFromStreamAsync(stream);
         }
 
-        public async Task<T> Load<T>(string apiPath, LoadSource source)
+        public static async Task<T> Load<T>(string apiPath, LoadSource source)
         {
             var path = Config.ServerApiPath + apiPath;
 
@@ -68,7 +63,7 @@ namespace FestApp
             }
         }
 
-        private async Task<T> LoadFromCache<T>(string path)
+        private static async Task<T> LoadFromCache<T>(string path)
         {
             var cacheStream = await Cache.OpenFileForReadIfExtists(path);
             if (cacheStream == null)
@@ -83,7 +78,7 @@ namespace FestApp
             }
         }
 
-        private Task<T> LoadFromStaticCache<T>(string path)
+        private static Task<T> LoadFromStaticCache<T>(string path)
         {
             // TODO implement
             Debug.WriteLine("Warning: No static cache for " + path);
@@ -91,7 +86,7 @@ namespace FestApp
         }
 
         // Load from net and store to cache
-        private async Task<T> LoadFromNet<T>(string path)
+        private static async Task<T> LoadFromNet<T>(string path)
         {
             string url = Config.ServerUrl + path;
 
@@ -109,7 +104,7 @@ namespace FestApp
             }
         }
 
-        private T LoadJson<T>(Stream stream)
+        private static T LoadJson<T>(Stream stream)
         {
             using (var reader = new StreamReader(stream))
             using (JsonReader jsonReader = new JsonTextReader(reader))
