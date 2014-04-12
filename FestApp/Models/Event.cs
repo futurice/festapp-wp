@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace FestApp.Models
 {
-    class Event
+    public class Event
     {
         [JsonProperty("start_time")]
         public DateTimeOffset StartTime { get; set; }
