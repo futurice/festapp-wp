@@ -129,6 +129,7 @@
     <Compile Include="Cache.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Converters\IndexToFontWeight.cs" />
+    <Compile Include="Converters\StringToVisibility.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="Controls\AsyncImage.xaml.cs">
       <DependentUpon>AsyncImage.xaml</DependentUpon>

@@ -21,40 +21,27 @@
 
         <conv:IndexToFontWeight x:Key="IndexToFontWeight" />
 
-        <Style x:Key="TestStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Pink" />
-        </Style>
-
         <DataTemplate x:Key="NextGigTemplate">
-            <TextBlock
-                Text="{Binding Title}"
-                FontWeight="{Binding Index,
-                    Converter={StaticResource IndexToFontWeight},
-                    ConverterParameter=1}"
-                Margin="12 6"
-                Style="{StaticResource TestStyle}"
-                Tap="TextBlock_Tap"/>
+            <StackPanel Margin="0,6">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Annotation}"/>
+                    <TextBlock Text="{Binding Artist}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding StartingIn}"/>
+                </StackPanel>
+            
+                <TextBlock Text="{Binding Stage}"/>
+               
+            </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="RestGigTemplate">
-            <TextBlock
-                Text="{Binding Title}"
-                FontWeight="{Binding Index,
-                    Converter={StaticResource IndexToFontWeight},
-                    ConverterParameter=1}"
-                Margin="12 6"
-                Style="{StaticResource TestStyle}"
-                Foreground="Green"
-                Tap="TextBlock_Tap"/>
+        
+        <DataTemplate x:Key="NewsTemplate">
+            <StackPanel Orientation="Vertical">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Title}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
         </DataTemplate>
-
-        <DataTemplate x:Key="GigTemplateSelector">
-            <sel:GigTemplateSelector
-                FirstTemplate="{StaticResource NextGigTemplate}"
-                RestTemplate="{StaticResource RestGigTemplate}"
-                Content="{Binding}"/>
-        </DataTemplate>
-
+        
     </phone:PhoneApplicationPage.Resources>
 
     <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
@@ -62,41 +49,51 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="*"/>     
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="12"/>
+        </Grid.ColumnDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Grid.ColumnSpan="5" Margin="12,17,0,28">
             <TextBlock Text="//TODO" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
+        
+        <StackPanel Margin="0,12" Grid.Row="1" Grid.ColumnSpan="5">
+            <ItemsControl Grid.Row="0"                              
+                            ItemsSource="{Binding NextGigs}"
+                            ItemTemplate="{StaticResource NextGigTemplate}"/>
+            
+            <ContentControl>
+                <TextBlock>Schedule</TextBlock>
+            </ContentControl>
+        </StackPanel>
 
-        <ListBox x:Name="MainListBox" Grid.Row="1"
-                    SelectionChanged="MainListBox_SelectionChanged">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                    
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-            </Grid>
-
-            <ItemsControl Grid.Row="0"
-                ItemsSource="{Binding NextGigs}"
-                ItemTemplate="{StaticResource NextGigTemplate}"/>
-
-            <ItemsControl Grid.Row="1"
-                ItemsSource="{Binding NextGigs}"
-                ItemTemplate="{StaticResource GigTemplateSelector}"/>
-
-            <ContentControl Grid.Row="2"
-                Content="{Binding TestItem}"
-                ContentTemplate="{StaticResource NextGigTemplate}" />
-
-        </ListBox>
+        <StackPanel Margin="0,12" Grid.Row="2" Grid.ColumnSpan="5">
+            <ItemsControl
+                ItemsSource="{Binding LatestNews}"
+                ItemTemplate="{StaticResource NewsTemplate}"
+                />
+            <ContentControl>
+                <TextBlock>News</TextBlock>
+            </ContentControl>
+        </StackPanel>
+    
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="1" />
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="3"/>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="1"/>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="3"/>
+     
     </Grid>
  
 </phone:PhoneApplicationPage>
