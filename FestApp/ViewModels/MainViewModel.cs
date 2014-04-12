@@ -15,24 +15,15 @@ using System.Collections.ObjectModel;
 using FestApp.Models;
 using System.Net;
 using System.Threading.Tasks;
-using System.Linq;
 
 
 namespace FestApp
 {
-    public class ArtistGroupViewModel : ObservableCollection<ArtistViewModel>
-    {
-        public ArtistGroupViewModel(IEnumerable<ArtistViewModel> artistVMs) : base(artistVMs) { }
-
-        public string Key { get; set; }
-    }
-
     public class MainViewModel : INotifyPropertyChanged
     {
         public MainViewModel()
         {
             this.Items = new ObservableCollection<ArtistViewModel>();
-            this.ArtistGroups = new ObservableCollection<ArtistGroupViewModel>();
         }
 
         /// <summary>
@@ -71,8 +62,6 @@ namespace FestApp
             get;
             private set;
         }
-
-        public ObservableCollection<ArtistGroupViewModel> ArtistGroups { get; private set; }
 
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
@@ -132,20 +121,6 @@ namespace FestApp
                     Description = artist.Content,
                     Photo = photo
                 });
-            }
-
-            ILookup<string, ArtistViewModel> artistGroupQuery = this.Items.ToLookup(artist => {
-                return artist.Name.Length > 0 ? artist.Name.Substring(1) : "";
-            });
-
-            ArtistGroups.Clear();
-
-            foreach (var artistGroupMapping in artistGroupQuery)
-            {
-                string groupName = artistGroupMapping.Key;
-                ArtistGroupViewModel groupVM = new ArtistGroupViewModel(artistGroupMapping);
-                groupVM.Key = groupName;
-                ArtistGroups.Add(groupVM);
             }
         }
 

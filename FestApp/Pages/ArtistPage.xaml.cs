@@ -43,7 +43,6 @@ namespace FestApp
             Name = "Test artist";
             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et purus vel diam malesuada blandit eget sit amet lorem. Integer nisi sem, pulvinar id mollis sit amet, ultrices in ligula. Sed adipiscing, lectus vitae ultricies vehicula, eros nunc condimentum ligula, sit amet fermentum lectus massa ullamcorper lorem.";
             Photo = new BitmapImage(new Uri("/DesignData/BadFinance.jpg", UriKind.Relative));
-
         }
     }
 }

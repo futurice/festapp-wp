@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FestApp.ViewModels
 {
-    public class ArtistListViewModel
+    public delegate void ArtistSelectedListener(ArtistViewModel artist);
+
+    public class ArtistListViewModel : ViewModelBase
     {
         public ArtistListViewModel() { }
 
