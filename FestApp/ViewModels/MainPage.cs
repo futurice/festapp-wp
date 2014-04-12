@@ -14,10 +14,30 @@ namespace FestApp.ViewModels
             public string Title { get; private set; }
             public string Time { get; private set; }
 
-            public NewsItem(string title, string time)
+            public NewsItem(Models.NewsItem newsItem)
             {
-                Title = title;
-                Time = time;
+                Title = newsItem.Title;
+                Time = MakeTimeString(newsItem.Time);
+            }
+
+            private static string MakeTimeString(DateTimeOffset timestamp)
+            {
+                var timeDifference = DateTimeOffset.Now - timestamp;
+
+                if (timeDifference.Days == 0)
+                {
+                    return "Today " + timestamp.ToString("hh:mm");
+                }
+                else if (timeDifference.Days == 1)
+                {
+                    return "Yesterday " + timestamp.ToString("hh:mm");
+                }
+                else
+                {
+                    return timestamp.ToString("dd.MM hh:mm");
+                }
+
+                return "Something else";
             }
         }
 
@@ -63,7 +83,6 @@ namespace FestApp.ViewModels
         public DesignerMainPage()
         {
 
-
             NextGigs = new ObservableCollection<GigItem>()
             {
                 new GigItem(new Models.Artist()
@@ -79,6 +98,27 @@ namespace FestApp.ViewModels
                     TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(90),
                     Stage="Group Stage",
                 }, "")
+            };
+
+            LatestNews = new ObservableCollection<NewsItem>()
+            {
+                new NewsItem(new Models.NewsItem()
+                {
+                    Title="Everything works perfectly and everyone's happyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                    Time=DateTimeOffset.Now,
+                }),
+
+                /*new NewsItem(new Models.NewsItem()
+                {
+                    Title="Something happened yesterday",
+                    Time=DateTimeOffset.Now - TimeSpan.FromDays(1),
+                }),
+
+                new NewsItem(new Models.NewsItem()
+                {
+                    Title="Something happened day before yesterday",
+                    Time=DateTimeOffset.Now - TimeSpan.FromDays(2),
+                }),*/
             };
         }
 
