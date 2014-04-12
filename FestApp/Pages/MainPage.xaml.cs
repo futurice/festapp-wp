@@ -38,10 +38,5 @@ namespace FestApp
                 await _viewModel.LoadData();
             }
         }
-
-        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            var gig = (sender as FrameworkElement).DataContext as ViewModels.MainPage.GigItem;
-        }
     }
 }
