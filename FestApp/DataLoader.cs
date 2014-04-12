@@ -75,11 +75,11 @@ namespace FestApp
             WebRequest req = WebRequest.CreateHttp(url);
             using (WebResponse response = await req.GetResponseAsync())
             using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            using (JsonReader jsonReader = new JsonTextReader(reader))
             {
-                StreamReader reader = new StreamReader(stream);
-                string json = await reader.ReadToEndAsync();
-
-                return JsonConvert.DeserializeObject<T>(json);
+                var serializer = JsonSerializer.CreateDefault();
+                return serializer.Deserialize<T>(jsonReader);
             }
         }
 
