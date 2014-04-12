@@ -137,8 +137,8 @@
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
-    <Compile Include="Pages\ArtistList.xaml.cs">
-      <DependentUpon>ArtistList.xaml</DependentUpon>
+    <Compile Include="Pages\ArtistListPage.xaml.cs">
+      <DependentUpon>ArtistListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
@@ -168,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ArtistList.xaml">
+    <Page Include="Pages\ArtistListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
