@@ -17,6 +17,8 @@ namespace FestApp.Utils
             _factory = factory;
         }
 
+        public bool HasValue { get { return _val != null; } }
+
         public async Task<TValue> Get()
         {
             using (await _lock.LockAsync())

@@ -101,6 +101,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -142,6 +143,7 @@
     <Compile Include="Utils\ListItemAlternateColorConverter.cs" />
     <Compile Include="Utils\LazyAsync.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
+    <Compile Include="Utils\Refreshable.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />
     <Compile Include="ViewModels\ArtistListViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />

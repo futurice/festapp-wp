@@ -24,8 +24,6 @@ namespace FestApp
 
     public static class DataLoader
     {
-        private const string cacheFolder = "Cache";
-
         private static HttpClient httpClient = new HttpClient();
 
         public static async Task<BitmapImage> LoadImage(string path, CancellationToken? ct = null)
@@ -80,6 +78,8 @@ namespace FestApp
 
         private static Task<T> LoadFromStaticCache<T>(string path)
         {
+            throw new NotImplementedException("No static cache");
+
             // TODO implement
             Debug.WriteLine("Warning: No static cache for " + path);
             return Task.FromResult(default(T));

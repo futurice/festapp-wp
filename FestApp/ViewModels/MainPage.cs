@@ -76,28 +76,13 @@ namespace FestApp.ViewModels
 
         public async Task LoadData()
         {
-            List<Models.NewsItem> newsItems;
-
             try
             {
-                Debug.WriteLine("From Cache");
-                newsItems = await DataLoader.Load<List<Models.NewsItem>>("news", LoadSource.CACHE);
-                PopulateNewsFromList(newsItems);
+                await API.News.UseCachedThenFreshData(result => PopulateNewsFromList(result.Data));
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Warning: Could not load news items");
-            }
-
-            try
-            {
-                Debug.WriteLine("From Network");
-                newsItems = await DataLoader.Load<List<Models.NewsItem>>("news", LoadSource.NETWORK);
-                PopulateNewsFromList(newsItems);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Warning: Could not load news items");
+                Debug.WriteLine("Error loading news, HANDLE! {0}", e);
             }
 
             SetVMProperty(
