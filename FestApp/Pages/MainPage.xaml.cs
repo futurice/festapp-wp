@@ -22,8 +22,6 @@ namespace FestApp
         {
             InitializeComponent();
 
-            // Set the data context of the listbox control to the sample data
-            _viewModel = new ViewModels.MainPage();
             DataContext = _viewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
@@ -31,13 +29,17 @@ namespace FestApp
         
 
         // Load data for the ViewModel Items
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded) {
-                App.ViewModel.LoadData();
-            }
+            if (_viewModel != null) { return; }
 
-            _viewModel.LoadData();
+            _viewModel = new ViewModels.MainPage();
+            DataContext = _viewModel;
+            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+            {
+                // TODO exceptions?
+                await _viewModel.LoadData();
+            }
             
         }
 
