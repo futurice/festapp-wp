@@ -26,14 +26,15 @@
         </Style>
 
         <DataTemplate x:Key="NextGigTemplate">
-            <TextBlock
-                Text="{Binding Title}"
-                FontWeight="{Binding Index,
-                    Converter={StaticResource IndexToFontWeight},
-                    ConverterParameter=1}"
-                Margin="12 6"
-                Style="{StaticResource TestStyle}"
-                Tap="TextBlock_Tap"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Annotation}"/>
+                    <TextBlock Text="{Binding Artist}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding StartingIn}"/>
+                </StackPanel>
+            
+                <TextBlock Text="{Binding Stage}"/>
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="RestGigTemplate">
@@ -67,8 +68,13 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="//TODO" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
 
+            <ItemsControl Grid.Row="0"
+                ItemsSource="{Binding NextGigs}"
+                ItemTemplate="{StaticResource NextGigTemplate}"/>
+                
+        </StackPanel>
+        <!--
         <ListBox x:Name="MainListBox" Grid.Row="1"
                     SelectionChanged="MainListBox_SelectionChanged">
             <Grid>
@@ -97,6 +103,7 @@
                 ContentTemplate="{StaticResource NextGigTemplate}" />
 
         </ListBox>
+        -->
     </Grid>
  
 </phone:PhoneApplicationPage>

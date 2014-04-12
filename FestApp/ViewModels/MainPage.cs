@@ -23,13 +23,33 @@ namespace FestApp.ViewModels
 
         public class GigItem
         {
-            public string Title { get; private set; }
-            public int Index { get; private set; }
+            public string Annotation { get; private set; }
+            public string Artist { get; private set; }
+            public string Stage { get; private set; }
 
-            public GigItem(string title, int index)
+            public string StartingIn { get; private set; }
+
+            public GigItem(Models.Artist artist, string annotation)
             {
-                Title = title;
-                Index = index;
+                Artist = artist.Name;
+                Annotation = annotation;
+                StartingIn = MakeStartString(artist.TimeStart);
+                Stage = artist.Stage;
+            }
+
+            private static string MakeStartString(DateTimeOffset startTime)
+            {
+                var timeUntilStart = startTime - DateTimeOffset.Now;
+
+                if (timeUntilStart.Hours > 0)
+                {
+                    return " in " + (int)timeUntilStart.TotalHours + "h " + timeUntilStart.Minutes + "min";
+                }
+                else
+                {
+                    return " in " + timeUntilStart.Minutes + " minutes";
+                }
+                
             }
         }
 
@@ -42,14 +62,24 @@ namespace FestApp.ViewModels
     {
         public DesignerMainPage()
         {
-            var gigs = new[]
-                {
-                    "Artist 1 in 15 minutets",
-                    "Artist 2 in 30 minutets",
-                };
 
-            NextGigs = new ObservableCollection<GigItem>(gigs.
-                Zip(EnumerableExtensions.Count(1), (g, i) => new GigItem(g, i)));
+
+            NextGigs = new ObservableCollection<GigItem>()
+            {
+                new GigItem(new Models.Artist()
+                {
+                    Name="Lily Allen",
+                    TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(15), 
+                    Stage="Stallman Stage",
+                }, "Next Up: "),
+
+                new GigItem(new Models.Artist()
+                {
+                    Name="Anna Abreu",
+                    TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(90),
+                    Stage="Group Stage",
+                }, "")
+            };
         }
 
         public GigItem TestItem { get { return NextGigs[0]; } }

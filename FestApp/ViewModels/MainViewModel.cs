@@ -82,6 +82,7 @@ namespace FestApp
             catch (Exception)
             {
                 Debug.WriteLine("Could not load data"); // TODO
+
             }
         }
 
