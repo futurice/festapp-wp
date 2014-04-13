@@ -39,6 +39,18 @@ namespace FestApp.Pages
         {
             return new Uri("/Pages/News.xaml", UriKind.Relative);
         }
+
+        private void NewsSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listBox = (ListBox)sender;
+            NewsViewModel.NewsItem selectedItem = (NewsViewModel.NewsItem)listBox.SelectedItem;
+
+            if (selectedItem != null)
+            {
+                NavigationService.Navigate(NewsItem.GetPageUri(selectedItem.Model.Id));
+                selectedItem = null;
+            }
+        }
     }
     
     public class DesignerNews : NewsViewModel

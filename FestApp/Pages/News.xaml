@@ -16,9 +16,7 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <ScrollViewer Background="#EFEFEF" HorizontalScrollBarVisibility="Disabled">
-    
-        <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid x:Name="LayoutRoot" Background="#EFEFEF">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -30,7 +28,7 @@
             </StackPanel>
 
             <Grid Grid.Row="1">
-                <ListBox ItemsSource="{Binding News}">
+                <ListBox ItemsSource="{Binding News}" SelectionChanged="NewsSelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Background="{Binding ListIndex,Converter={StaticResource AlternateListColoring}}">
@@ -54,5 +52,4 @@
                 </ListBox>
             </Grid>
         </Grid>
-    </ScrollViewer>
 </phone:PhoneApplicationPage>

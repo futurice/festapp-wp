@@ -9,17 +9,23 @@ using System.Collections.ObjectModel;
 
 namespace FestApp.ViewModels
 {
+    public delegate void NewsItemLoadedListener(NewsViewModel.NewsItem item);
+
     public class NewsViewModel : ViewModelBase
     {
         // TODO merge this class with MainPage's NewsItem?
         public class NewsItem
         {
+            public Models.NewsItem Model { get; private set; }
+
             public NewsItem() { }
 
             public NewsItem(Models.NewsItem newsItem)
             {
+                Model = newsItem;
                 Title = newsItem.Title;
                 Time = MakeTimeString(newsItem.Time);
+                Content = newsItem.Content;
             }
 
             private static string MakeTimeString(DateTimeOffset timestamp)
@@ -42,7 +48,29 @@ namespace FestApp.ViewModels
 
             public string Title { get; set; }
             public string Time { get; set; }
+            public string Content { get; set; }
             public int ListIndex { get; set; }
+
+            public static async Task LoadSingle(string id, NewsItemLoadedListener listener)
+            {
+                try
+                {
+                    await API.News.UseCachedThenFreshData(result =>
+                    {
+                        foreach (Models.NewsItem item in result.Data)
+                        {
+                            if (item.Id == id)
+                            {
+                                listener(new NewsItem(item));
+                            }
+                        }
+                    });
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error loading artists, HANDLE! {0}", e);
+                }
+            }
         }
 
         public ObservableCollection<NewsItem> News { get; set; }
