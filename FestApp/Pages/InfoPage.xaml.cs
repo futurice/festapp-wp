@@ -7,20 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FestApp.ViewModels;
 
 namespace FestApp.Pages
 {
-    public class InfoViewModel
-    {
-        public class InfoItem
-        {
-            public string Title { get; set; }
-            public int ListIndex { get; set; }
-        }
-
-        public List<InfoItem> Info { get; set; }
-    }
-
+    /*
     public class DesignerInfo : InfoViewModel
     {
         public DesignerInfo()
@@ -47,7 +38,7 @@ namespace FestApp.Pages
                 ListIndex = 3
             });
         }
-    }
+    }*/
 
     public partial class InfoPage : PhoneApplicationPage
     {
@@ -59,6 +50,27 @@ namespace FestApp.Pages
         public static Uri GetPageUri()
         {
             return new Uri("/Pages/InfoPage.xaml", UriKind.Relative);
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var vm = new InfoViewModel();
+            DataContext = vm;
+
+            try
+            {
+                using (Utils.LoadingIndicatorHelper.StartLoading("Loading info..."))
+                {
+                    await vm.LoadData();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to load latest info!");
+            }
+
         }
     }
 }
