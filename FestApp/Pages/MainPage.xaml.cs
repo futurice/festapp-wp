@@ -43,7 +43,8 @@ namespace FestApp.Pages
 
         private void Info_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            var pageUri = InfoPage.GetPageUri();
+            NavigationService.Navigate(pageUri);
         }
 
         private void Map_Tap(object sender, System.Windows.Input.GestureEventArgs e)
