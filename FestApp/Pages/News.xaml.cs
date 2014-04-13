@@ -10,23 +10,41 @@ using Microsoft.Phone.Shell;
 using System.Windows.Media;
 using System.Windows.Data;
 using FestApp.Utils;
+using FestApp.ViewModels;
 
 namespace FestApp.Pages
 {
-    public class DesignerNews
+    public partial class News : PhoneApplicationPage
     {
-        public class NewsItem
+        private NewsViewModel _viewModel;
+
+        public News()
         {
-            public string Title { get; set; }
-            public string Time { get; set; }
-            public int ListIndex { get; set; }
+            InitializeComponent();
+            this.EnableTransitions();
+            DataContext = _viewModel = new NewsViewModel();
+            Loaded += PageLoaded;
         }
 
-        public List<NewsItem> News { get; set; }
+        // Load data for the ViewModel Items
+        private async void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+            {
+                await _viewModel.LoadData();
+            }
+        }
 
+        public static Uri GetPageUri()
+        {
+            return new Uri("/Pages/News.xaml", UriKind.Relative);
+        }
+    }
+    
+    public class DesignerNews : NewsViewModel
+    {
         public DesignerNews()
         {
-            News = new List<NewsItem>();
             News.Add(new NewsItem()
             {
                 Title = "New First",
@@ -51,20 +69,6 @@ namespace FestApp.Pages
                 Time = "Fri 10.10.2010",
                 ListIndex = 3
             });
-        }
-    }
-
-    public partial class News : PhoneApplicationPage
-    {
-        public News()
-        {
-            InitializeComponent();
-            this.EnableTransitions();
-        }
-
-        public static Uri GetPageUri()
-        {
-            return new Uri("/Pages/News.xaml", UriKind.Relative);
         }
     }
 }
