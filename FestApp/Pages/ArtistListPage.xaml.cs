@@ -12,6 +12,7 @@ using FestApp.Utils;
 using FestApp.ViewModels;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FestApp.Pages
 {
@@ -19,10 +20,10 @@ namespace FestApp.Pages
     {
         public DesignerArtistListVM()
         {
-            PopulateArtistsFromList(new ArtistViewModel[] {
-                new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" },
-                new ArtistViewModel() { Name = "Matti Suomalainen" }, new ArtistViewModel() { Name = "Matti MuuMies" }
-            });
+            IEnumerable<ArtistViewModel> artistVMs = DesignData.JsonLoader.Artists().Select<Models.Artist, ArtistViewModel>(
+                artist => new ArtistViewModel(artist));
+
+            PopulateArtistsFromList(artistVMs);
         }
     }
 
@@ -38,9 +39,12 @@ namespace FestApp.Pages
         }
 
         // Load data for the ViewModel Items
-        private void PageLoaded(object sender, RoutedEventArgs e)
+        private async void PageLoaded(object sender, RoutedEventArgs e)
         {
-            _viewModel.LoadData();
+            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+            {
+                await _viewModel.LoadData();
+            }
         }
 
         public Uri GetPageUri()
