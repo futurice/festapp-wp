@@ -24,35 +24,33 @@
         <DataTemplate x:Key="NextGigTemplate">
             <StackPanel Margin="0,6">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Annotation}"/>
-                    <TextBlock Text="{Binding Artist}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding StartingIn}"/>
+                    <TextBlock Text="{Binding Title}" LineHeight="20" LineStackingStrategy="BlockLineHeight" />                
                 </StackPanel>
-            
-                <TextBlock Text="{Binding Stage}"/>
-               
+
+                <TextBlock Foreground="#6c6c6c" Text="{Binding Stage}" LineHeight="20" LineStackingStrategy="BlockLineHeight" />
+
             </StackPanel>
         </DataTemplate>
 
         
         <DataTemplate x:Key="NewsTemplate">
-            <StackPanel Orientation="Vertical">
-                <TextBlock TextWrapping="Wrap" Text="{Binding Title}"/>
-                <TextBlock Text="{Binding Time}"/>
+            <StackPanel Orientation="Vertical" Style="{StaticResource NewsBoxStyle}">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Title}" Style="{StaticResource NewsTextStyle}"/>
+                <TextBlock Foreground="#bababa" Text="{Binding Time}"/>
             </StackPanel>
         </DataTemplate>
         
     </phone:PhoneApplicationPage.Resources>
 
     <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Style="{StaticResource PageStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="12"/>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
         
@@ -66,34 +64,111 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Grid.ColumnSpan="5" Margin="12,17,0,28">
-            <TextBlock Text="//TODO" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <Image MaxHeight="110" Source="/Images/icons/wp_logo.png"/>
         </StackPanel>
         
-        <StackPanel Margin="0,12" Grid.Row="1" Grid.ColumnSpan="5">
+        <Grid Margin="12,12" Grid.Row="1" Grid.ColumnSpan="5">
+
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/Artist/BadFinance.jpg"/>
+            </Grid.Background>
+            <!--<Image
+                Source="/Images/Artist/BadFinance.jpg"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Grid.ColumnSpan="10"
+                Grid.Row="0"
+                /> -->
+            
+            <Rectangle Height="55" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Stretch" Opacity="0.80"/>
             <ItemsControl Grid.Row="0"                              
                             ItemsSource="{Binding NextGigs}"
-                            ItemTemplate="{StaticResource NextGigTemplate}"/>
+                            ItemTemplate="{StaticResource NextGigTemplate}"
+                          />
             
-            <ContentControl>
-                <TextBlock>Schedule</TextBlock>
+            <ContentControl HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <TextBlock Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
             </ContentControl>
-        </StackPanel>
+        </Grid>
 
-        <StackPanel Margin="0,12" Grid.Row="2" Grid.ColumnSpan="5">
-            <ItemsControl
+        <StackPanel Margin="12,12" Grid.Row="2" Grid.ColumnSpan="5" Style="{StaticResource NewsBoxStyle}">
+            <ItemsControl                
                 ItemsSource="{Binding LatestNews}"
                 ItemTemplate="{StaticResource NewsTemplate}"
                 />
-            <ContentControl>
-                <TextBlock>News</TextBlock>
+            <ContentControl HorizontalAlignment="Right">
+                <TextBlock Style="{StaticResource NewsLogoStyle}">NEWS</TextBlock>
             </ContentControl>
         </StackPanel>
-    
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="1" />
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="3"/>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="1"/>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="3"/>
-     
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource BandsBoxStyle}"  Grid.Row="3" Grid.Column="1" >
+          
+            <Image 
+                Source="/images/icons/bands_icon.png" 
+                Style="{StaticResource MainPageImageStyle}"
+                />
+            
+            <TextBlock 
+                Text="BANDS"
+                Style="{StaticResource MainPageTextStyle}"
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right"
+                />
+        </Grid>
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource InstagramBoxStyle}" Grid.Row="3" Grid.Column="3">
+            <Image
+                Source="/Images/Icons/insta_icon.png"
+                Style="{StaticResource MainPageImageStyle}"
+                />
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,0">
+                <TextBlock
+                   Text="INS"
+                    Style="{StaticResource MainPageTextStyle}"
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                />
+                <TextBlock
+                   Text="TAG"
+                    Style="{StaticResource MainPageTextStyle}"                
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    />
+                <TextBlock
+                   Text="RAM"
+                    Style="{StaticResource MainPageTextStyle}"                
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    />
+            </StackPanel>
+        </Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource MapBoxStyle}" Grid.Row="5" Grid.Column="1">
+            <Image
+                Source="/images/Icons/map_icon.png"
+                Style="{StaticResource MainPageImageStyle}"
+            />
+            
+            <TextBlock
+                Text="MAP"
+                Style="{StaticResource MainPageTextStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                />
+        </Grid>
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource InfoBoxStyle}" Grid.Row="5" Grid.Column="3">
+            <Image
+                Source="/Images/Icons/info_icon.png"
+                Style="{StaticResource MainPageImageStyle}"
+                />
+            <TextBlock
+                Text="INFO"
+                Style="{StaticResource MainPageTextStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                />
+        </Grid>
+
     </Grid>
  
 </phone:PhoneApplicationPage>
