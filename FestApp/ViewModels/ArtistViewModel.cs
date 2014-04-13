@@ -63,7 +63,7 @@ namespace FestApp
         {
             Model = artist;
             Name = artist.Name;
-            Description = artist.Content;
+            Description = artist.Content.Replace("<p>", "").Replace("</p>", "");
             PhotoUrl = artist.Picture;
             SpotifyUrl = artist.Spotify;
             YoutubeUrl = artist.Youtube;

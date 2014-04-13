@@ -49,7 +49,8 @@ namespace FestApp.Pages
 
         private void Map_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            var pageUri = MapPage.GetPageUri();
+            NavigationService.Navigate(pageUri);
         }
 
         private void Instagram_Tap(object sender, System.Windows.Input.GestureEventArgs e)

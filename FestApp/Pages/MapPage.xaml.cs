@@ -19,7 +19,7 @@ namespace FestApp.Pages
             InitializeComponent();
         }
 
-        public Uri GetPageUri()
+        public static Uri GetPageUri()
         {
             return new Uri(string.Format("/Pages/MapPage.xaml"), UriKind.Relative);
         }
