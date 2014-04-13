@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:vm="clr-namespace:FestApp.ViewModels"
     xmlns:conv="clr-namespace:FestApp.Converters"
@@ -94,23 +95,24 @@
             </ContentControl>
         </StackPanel>
 
-        <Grid HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
-              Style="{StaticResource BandsBoxStyle}" 
-              Grid.Row="5" Grid.Column="1" >
-          
-            <Image 
-                Source="/images/icons/bands_icon.png" 
-                Style="{StaticResource MainPageImageStyle}"
-                />
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="5" Grid.Column="1"
+            HorizontalContentAlignment="Stretch">
+            <Grid Style="{StaticResource BandsBoxStyle}">
+                <Image 
+                    Source="/images/icons/bands_icon.png" 
+                    Style="{StaticResource MainPageImageStyle}"
+                    />
             
-            <TextBlock 
-                Text="BANDS"
-                Style="{StaticResource MainPageTextStyle}"
-                VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right"
-                />
-        </Grid>
+                <TextBlock 
+                    Text="BANDS"
+                    Style="{StaticResource MainPageTextStyle}"
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Right"
+                    />
+            </Grid>
+        </ListBoxItem>
 
         <Grid
             HorizontalAlignment="Stretch"
