@@ -12,8 +12,53 @@
         <utils:NullToInvisibleConverter x:Name="NullToInvisibleConverter" />
         <utils:FalseToInvisibleConverter x:Name="FalseToInvisibleConverter" />
         
-        <Style x:Name="PageStyle" TargetType="Grid">
-            <Setter Property="Background" Value="#EFEFEF" />
+        <Style x:Name="MainPageTextStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Black" />
+            <Setter Property="Margin" Value="12,6" />
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="LineHeight" Value="26" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        </Style>
+
+        <Style x:Name="MainPageImageStyle" TargetType="Image">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="12,0" />
+        </Style>
+        
+        <Style x:Name="PageStyle" TargetType="Panel">
+            <Setter Property="Background" Value="#c4d8e4" />
+            
+        </Style>
+        <Style x:Name="NewsTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+        <Style x:Name="NewsLogoStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#bababa" />
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Margin" Value="12,6" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style x:Name="NewsBoxStyle" TargetType="Panel">
+            <Setter Property="Background" Value="#e8eaeb" />
+            <Setter Property="Margin" Value="6,6" />
+        </Style>
+        <Style x:Name="NextUpTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#c4d8e4" />
+        </Style>
+        <Style x:Name="StageTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6c6c6c" />            
+        </Style>        
+        <Style x:Name="BandsBoxStyle" TargetType="Grid">
+            <Setter Property="Background" Value="#3b485d" />
+        </Style>
+        <Style x:Name="InstagramBoxStyle" TargetType="Grid">
+            <Setter Property="Background" Value="#617d86" />
+        </Style>
+        <Style x:Name="MapBoxStyle" TargetType="Grid">
+            <Setter Property="Background" Value="#83a0ab" />
+        </Style>
+        <Style x:Name="InfoBoxStyle" TargetType="Grid">
+            <Setter Property="Background" Value="#8eb0bf" />
         </Style>
         <Style x:Name="TextTitle1Style" BasedOn="{StaticResource PhoneTextTitle1Style}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black" />

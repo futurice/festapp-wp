@@ -198,11 +198,17 @@
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Artist\BadFinance.jpg" />
+    <Content Include="Images\Icons\bands_icon.png" />
     <Content Include="Images\Icons\band_page_play_spotify.png" />
     <Content Include="Images\Icons\band_page_play_youtube.png" />
     <Content Include="Images\Icons\band_page_star_icon.png" />
     <Content Include="Images\Icons\band_page_star_icon_active.png" />
     <Content Include="README_FIRST.txt" />
+    <Content Include="Images\Icons\info_icon.png" />
+    <Content Include="Images\Icons\insta_icon.png" />
+    <Content Include="Images\Icons\map_icon.png" />
+    <Content Include="Images\Icons\wp_logo.png" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -213,9 +219,7 @@
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Artist\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WP8, Version=4.3.31.28729, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

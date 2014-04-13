@@ -6,6 +6,7 @@ using System.Text;
 using FestApp.Utils;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace FestApp.ViewModels
 {
@@ -46,6 +47,9 @@ namespace FestApp.ViewModels
         {
             public string Title { get; private set; }
             public string Stage { get; private set; }
+            public string StartingIn { get; private set; }
+
+            public BitmapImage artistImage { get; private set; }
 
             public EventVM(Models.Event eventInfo)
             {
@@ -53,8 +57,10 @@ namespace FestApp.ViewModels
                     String.Join(", ", eventInfo.Artists),
                     MakeStartString(eventInfo.StartTime));
                 Stage = eventInfo.Location;
-            }
 
+                StartingIn = MakeStartString(eventInfo.StartTime);
+            }
+           
             private static string MakeStartString(DateTimeOffset startTime)
             {
                 var timeUntilStart = startTime - DateTimeOffset.Now;
@@ -113,7 +119,9 @@ namespace FestApp.ViewModels
         {
             var vmList = events.
                 OrderBy(e => e.StartTime).
-                Where(e => e.StartTime > DateTimeOffset.Now).
+
+                // Commented out because dummy data has StartTime before current time
+                /*Where(e => e.StartTime > DateTimeOffset.Now).*/
                 Select(e => new EventVM(e)).
                 Take(1).
                 ToList();
