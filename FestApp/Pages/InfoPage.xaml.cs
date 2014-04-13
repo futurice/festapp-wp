@@ -55,5 +55,10 @@ namespace FestApp.Pages
         {
             InitializeComponent();
         }
+
+        public static Uri GetPageUri()
+        {
+            return new Uri("/Pages/InfoPage.xaml", UriKind.Relative);
+        }
     }
 }

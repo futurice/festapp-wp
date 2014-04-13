@@ -59,7 +59,7 @@ namespace FestApp
             NavigateToPage(_viewModel.SpotifyUrl);
         }
 
-        private void FavoriteButtonTapped(object sender, GestureEventArgs e)
+        private void FavoriteButtonTapped(object sender,  System.Windows.Input.GestureEventArgs e)
         {
             _viewModel.Favorited = !_viewModel.Favorited;
         }
@@ -76,6 +76,7 @@ namespace FestApp
             webTask.Uri = new Uri(url);
             webTask.Show();
         }
+
     }
 
     class DesignerArtist : ArtistViewModel
