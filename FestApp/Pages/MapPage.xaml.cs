@@ -19,6 +19,11 @@ namespace FestApp.Pages
             InitializeComponent();
         }
 
+        public Uri GetPageUri()
+        {
+            return new Uri(string.Format("/Pages/MapPage.xaml"), UriKind.Relative);
+        }
+
         private void ImageManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
             if (e.PinchManipulation != null)
