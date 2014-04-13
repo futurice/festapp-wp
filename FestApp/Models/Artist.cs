@@ -23,16 +23,6 @@ namespace FestApp.Models
 
         public string Status { get; set; }
 
-        public string Stage { get; set; }
-
-        public string Day { get; set; }
-
-        [JsonProperty("time_start")]
-        public DateTimeOffset TimeStart { get; set; }
-
-        [JsonProperty("time_stop")]
-        public DateTimeOffset TimeStop { get; set; }
-
         public string Founded { get; set; }
 
         public string Genre { get; set; }

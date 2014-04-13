@@ -12,6 +12,7 @@ using FestApp.Utils;
 using FestApp.ViewModels;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FestApp.Pages
 {
@@ -19,10 +20,10 @@ namespace FestApp.Pages
     {
         public DesignerArtistListVM()
         {
-            GetData(new ArtistViewModel[] {
-                new ArtistViewModel() { Name = "Matti Meikäläinen" }, new ArtistViewModel() { Name = "Kalle Ankka" },
-                new ArtistViewModel() { Name = "Matti Suomalainen" }, new ArtistViewModel() { Name = "Matti MuuMies" }
-            });
+            IEnumerable<ArtistViewModel> artistVMs = DesignData.JsonLoader.Artists().Select<Models.Artist, ArtistViewModel>(
+                artist => new ArtistViewModel(artist));
+
+            PopulateArtistsFromList(artistVMs);
         }
     }
 
@@ -33,34 +34,27 @@ namespace FestApp.Pages
         public ArtistListPage()
         {
             InitializeComponent();
-            _viewModel = new ArtistListViewModel();
+            DataContext = _viewModel = new ArtistListViewModel();
+            Loaded += PageLoaded;
         }
 
-        private async Task TestLoad()
+        // Load data for the ViewModel Items
+        private async void PageLoaded(object sender, RoutedEventArgs e)
         {
-            await App.ViewModel.LoadData();
-            _viewModel.GetData(App.ViewModel.Items);
-            DataContext = _viewModel;
+            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+            {
+                await _viewModel.LoadData();
+            }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public static Uri GetPageUri()
         {
-            base.OnNavigatedTo(e);
-            TestLoad();
+            return new Uri(string.Format("/Pages/ArtistListPage.xaml"), UriKind.Relative);
         }
 
         private void ArtistSelected(ArtistViewModel artist)
         {
-            int index = App.ViewModel.Items.IndexOf(artist); // What if artist updates?
-
-            if (index < 0)
-            {
-                Debug.WriteLine("Artist not found anymore");
-                //return;
-                index = 1; // TODO remove
-            }
-
-            NavigationService.Navigate(new Uri(string.Format("/Pages/ArtistPage.xaml?selectedItem={0}", index), UriKind.Relative));
+            NavigationService.Navigate(ArtistPage.GetPageUri(artist.Model.Id));
         }
 
         private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)

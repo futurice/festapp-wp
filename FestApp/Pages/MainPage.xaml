@@ -1,11 +1,13 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="FestApp.MainPage"
+    x:Class="FestApp.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:vm="clr-namespace:FestApp.ViewModels"
     xmlns:conv="clr-namespace:FestApp.Converters"
+    xmlns:ctrl="clr-namespace:FestApp.Controls"
     xmlns:sel="clr-namespace:FestApp.Selectors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,39 +22,27 @@
     <phone:PhoneApplicationPage.Resources>
 
         <conv:IndexToFontWeight x:Key="IndexToFontWeight" />
-
-        <DataTemplate x:Key="NextGigTemplate">
-            <StackPanel Margin="0,6">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Annotation}"/>
-                    <TextBlock Text="{Binding Artist}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding StartingIn}"/>
-                </StackPanel>
-            
-                <TextBlock Text="{Binding Stage}"/>
-               
-            </StackPanel>
-        </DataTemplate>
-
         
         <DataTemplate x:Key="NewsTemplate">
-            <StackPanel Orientation="Vertical">
-                <TextBlock TextWrapping="Wrap" Text="{Binding Title}"/>
-                <TextBlock Text="{Binding Time}"/>
+            <StackPanel Orientation="Vertical" Style="{StaticResource NewsBoxStyle}">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Title}" Style="{StaticResource NewsTextStyle}"/>
+                <TextBlock Foreground="#bababa" Text="{Binding Time}"/>
             </StackPanel>
         </DataTemplate>
         
     </phone:PhoneApplicationPage.Resources>
 
     <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Style="{StaticResource PageStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="230"/>
             <RowDefinition Height="12"/>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
         
@@ -64,36 +54,163 @@
             <ColumnDefinition Width="12"/>
         </Grid.ColumnDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Grid.ColumnSpan="5" Margin="12,17,0,28">
-            <TextBlock Text="//TODO" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <Image
+            MaxHeight="110"
+            Source="/Images/icons/wp_logo.png"
+            Grid.Row="0" Grid.ColumnSpan="4"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"/>
         
-        <StackPanel Margin="0,12" Grid.Row="1" Grid.ColumnSpan="5">
-            <ItemsControl Grid.Row="0"                              
-                            ItemsSource="{Binding NextGigs}"
-                            ItemTemplate="{StaticResource NextGigTemplate}"/>
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="1"
+            Grid.ColumnSpan="5"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Tap="Gig_Tap">
             
-            <ContentControl>
-                <TextBlock>Schedule</TextBlock>
-            </ContentControl>
-        </StackPanel>
+            <Grid Margin="12 1 12 0" 
+                  Style="{StaticResource BandsBoxStyle}"
+                  DataContext="{Binding NextGig}">
+            
+                <ctrl:AsyncImage
+                    Source="{Binding ArtistImage}"
+                    Stretch="UniformToFill"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"/>
+            
+                <StackPanel Background="#CC000000" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                    <TextBlock
+                        Text="{Binding Title}"
+                        Margin="12 3 12 0" />
+                    <TextBlock
+                        Foreground="#6c6c6c"
+                        Text="{Binding Stage}"
+                        Margin="12 0 12 6"/>
+                </StackPanel>
 
-        <StackPanel Margin="0,12" Grid.Row="2" Grid.ColumnSpan="5">
-            <ItemsControl
-                ItemsSource="{Binding LatestNews}"
-                ItemTemplate="{StaticResource NewsTemplate}"
+                <TextBlock
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
+            </Grid>
+        </ListBoxItem>
+
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="3"
+            Grid.ColumnSpan="5"
+            HorizontalContentAlignment="Stretch"
+            Tap="News_Tap">
+            
+            <StackPanel Margin="12 0" Style="{StaticResource NewsBoxStyle}">
+                <ItemsControl                
+                    ItemsSource="{Binding LatestNews}"
+                    ItemTemplate="{StaticResource NewsTemplate}"
+                    />
+                <ContentControl HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource NewsLogoStyle}">NEWS</TextBlock>
+                </ContentControl>
+            </StackPanel>
+        </ListBoxItem>
+
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="5" Grid.Column="1"
+            HorizontalContentAlignment="Stretch"
+            Tap="Bands_Tap">
+            <Grid Style="{StaticResource BandsBoxStyle}">
+                <Image 
+                    Source="/images/icons/bands_icon.png" 
+                    Style="{StaticResource MainPageImageStyle}"
+                    />
+            
+                <TextBlock 
+                    Text="BANDS"
+                    Style="{StaticResource MainPageTextStyle}"
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Right"
+                    />
+            </Grid>
+        </ListBoxItem>
+
+        <ListBoxItem
+                toolkit:TiltEffect.IsTiltEnabled="True"
+                Grid.Row="5" Grid.Column="3"
+                HorizontalContentAlignment="Stretch"
+                Tap="Instagram_Tap">
+        <Grid            
+            Style="{StaticResource InstagramBoxStyle}">
+            <Image
+                Source="/Images/Icons/insta_icon.png"
+                Style="{StaticResource MainPageImageStyle}"
                 />
-            <ContentControl>
-                <TextBlock>News</TextBlock>
-            </ContentControl>
-        </StackPanel>
-    
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="1" />
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Bisque" Grid.Row="3" Grid.Column="3"/>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="1"/>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Blue" Grid.Row="5" Grid.Column="3"/>
-     
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,0">
+                <TextBlock
+                   Text="INS"
+                    Style="{StaticResource MainPageTextStyle}"
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                />
+                <TextBlock
+                   Text="TAG"
+                    Style="{StaticResource MainPageTextStyle}"                
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    />
+                <TextBlock
+                   Text="RAM"
+                    Style="{StaticResource MainPageTextStyle}"                
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    />
+            </StackPanel>
+    </Grid>
+    </ListBoxItem>
+        
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="7" Grid.Column="1"
+            HorizontalContentAlignment="Stretch"
+            Tap="Map_Tap">
+            
+            <Grid
+                    Style="{StaticResource MapBoxStyle}">
+                    <Image
+                        Source="/images/Icons/map_icon.png"
+                        Style="{StaticResource MainPageImageStyle}"
+                    />
+            
+                    <TextBlock
+                        Text="MAP"
+                        Style="{StaticResource MainPageTextStyle}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        />
+                </Grid>
+        </ListBoxItem>
+
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="7" Grid.Column="3"
+            HorizontalContentAlignment="Stretch"
+            Tap="Info_Tap"
+            >
+            
+            <Grid
+                Style="{StaticResource InfoBoxStyle}">
+                <Image
+                    Source="/Images/Icons/info_icon.png"
+                    Style="{StaticResource MainPageImageStyle}"
+                    />
+                <TextBlock
+                    Text="INFO"
+                    Style="{StaticResource MainPageTextStyle}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    />
+            </Grid>
+        </ListBoxItem>
+
     </Grid>
  
 </phone:PhoneApplicationPage>

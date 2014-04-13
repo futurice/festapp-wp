@@ -18,24 +18,6 @@ namespace FestApp
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel = null;
-
-        /// <summary>
-        /// A static ViewModel used by the views to bind against.
-        /// </summary>
-        /// <returns>The MainViewModel object.</returns>
-        public static MainViewModel ViewModel
-        {
-            get
-            {
-                // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
-
-                return viewModel;
-            }
-        }
-
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -55,6 +37,10 @@ namespace FestApp
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            // TODO implement something fancier if using external images at some stage
+            Controls.AsyncImage.ImageFactory = async (o, ct) =>
+                (ImageSource) (await DataLoader.LoadImage((string)o, ct));
 
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached) {
@@ -81,18 +67,14 @@ namespace FestApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            ViewModel.LoadData();
+
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded && !App.ViewModel.IsDataLoading)
-            {
-                App.ViewModel.LoadData();
-            }
+
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -140,6 +122,7 @@ namespace FestApp
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
             RootFrame = new PhoneApplicationFrame();
+            Utils.LoadingIndicatorHelper.Initialize(RootFrame);
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

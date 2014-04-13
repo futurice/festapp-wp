@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -11,9 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace FestApp
 {
+    public delegate void ArtistViewModelLoaded(ArtistViewModel viewModel);
+
     public class ArtistViewModel : INotifyPropertyChanged
     {
         private bool _favorited;
@@ -47,6 +52,41 @@ namespace FestApp
                 {
                     return new BitmapImage(new Uri("/Images/Icons/band_page_star_icon.png", UriKind.Relative));
                 }
+            }
+        }
+
+        public Models.Artist Model { get; private set; }
+
+        public ArtistViewModel() { }
+
+        public ArtistViewModel(Models.Artist artist)
+        {
+            Model = artist;
+            Name = artist.Name;
+            Description = artist.Content;
+            PhotoUrl = artist.Picture;
+            SpotifyUrl = artist.Spotify;
+            //YoutubeUrl = artist.Youtube
+        }
+
+        public static async Task LoadSingle(string id, ArtistViewModelLoaded listener)
+        {
+            try
+            {
+                await API.Artists.UseCachedThenFreshData(result =>
+                {
+                    foreach (Models.Artist artist in result.Data)
+                    {
+                        if (artist.Id == id)
+                        {
+                            listener(new ArtistViewModel(artist));
+                        }
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error loading artists, HANDLE! {0}", e);
             }
         }
 
@@ -84,19 +124,20 @@ namespace FestApp
             }
         }
 
-        private BitmapImage _photo;
+        private string _photoUrl;
 
-        public BitmapImage Photo
+        public string PhotoUrl
         {
             get
             {
-                return _photo;
+                return _photoUrl;
             }
             set
             {
-                if (value != _photo) {
-                    _photo = value;
-                    NotifyPropertyChanged("Photo");
+                if (value != _photoUrl)
+                {
+                    _photoUrl = value;
+                    NotifyPropertyChanged("PhotoUrl");
                 }
             }
         }

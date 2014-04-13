@@ -14,5 +14,12 @@ namespace FestApp
 
         public static readonly Refreshable<List<Models.NewsItem>> News =
             new Refreshable<List<Models.NewsItem>>("news");
+
+        public static readonly Refreshable<List<Models.Event>> Events =
+            new Refreshable<List<Models.Event>>("events");
+
+        public static readonly Refreshable<List<Models.Location>> Locations =
+            new Refreshable<List<Models.Location>>("locations");
+
     }
 }

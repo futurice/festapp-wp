@@ -6,6 +6,7 @@ using System.Text;
 using FestApp.Utils;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace FestApp.ViewModels
 {
@@ -42,20 +43,36 @@ namespace FestApp.ViewModels
             }
         }
 
-        public class GigItem
+        public class EventVM : ViewModelBase
         {
-            public string Annotation { get; private set; }
-            public string Artist { get; private set; }
+            public string Title { get; private set; }
             public string Stage { get; private set; }
-
             public string StartingIn { get; private set; }
+            public string ArtistImage { get; private set; }
 
-            public GigItem(Models.Artist artist, string annotation)
+            public readonly Models.Event Event;
+
+            public EventVM(Models.Event eventInfo)
             {
-                Artist = artist.Name;
-                Annotation = annotation;
-                StartingIn = MakeStartString(artist.TimeStart);
-                Stage = artist.Stage;
+                Event = eventInfo;
+
+                Title = String.Format("Next up: {0} in {1}",
+                    String.Join(", ", eventInfo.Artists),
+                    MakeStartString(eventInfo.StartTime));
+                Stage = eventInfo.Location;
+
+                StartingIn = MakeStartString(eventInfo.StartTime);
+            }
+
+            public async Task LoadArtistImage()
+            {
+                await API.Artists.UseCachedThenFreshData(data =>
+                    {
+                        var artist = data.Data.
+                            Where(a => Event.Artists.Any(aName => aName == a.Name)).
+                            First();
+                        SetVMProperty(() => ArtistImage, artist.Picture);
+                    });
             }
 
             private static string MakeStartString(DateTimeOffset startTime)
@@ -64,17 +81,21 @@ namespace FestApp.ViewModels
 
                 if (timeUntilStart.Hours > 0)
                 {
-                    return " in " + (int)timeUntilStart.TotalHours + " hours " + timeUntilStart.Minutes + " minutes";
+                    return (int)timeUntilStart.TotalHours + " hours " + timeUntilStart.Minutes + " minutes";
                 }
                 else
                 {
-                    return " in " + timeUntilStart.Minutes + " minutes";
+                    return timeUntilStart.Minutes + " minutes";
                 }
-                
             }
         }
 
         public async Task LoadData()
+        {
+            await Task.WhenAll(new[] { LoadEvents(), LoadNews() });
+        }
+
+        private async Task LoadNews()
         {
             try
             {
@@ -84,42 +105,53 @@ namespace FestApp.ViewModels
             {
                 Debug.WriteLine("Error loading news, HANDLE! {0}", e);
             }
+        }
 
-            SetVMProperty(
-                () => NextGigs,
- 
-                new List<GigItem>()
-                {
-                    new GigItem(new Models.Artist()
-                    {
-                        Name="Lily Allen",
-                        TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(15), 
-                        Stage="Stallman Stage",
-                    }, "Next Up: "),
-
-                    new GigItem(new Models.Artist()
-                    {
-                        Name="Anna Abreu",
-                        TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(90),
-                        Stage="Group Stage",
-                    }, "")
-                });
-
-
+        private async Task LoadEvents()
+        {
+            try
+            {
+                await API.Events.UseCachedThenFreshData(result => PopulateEventsFromList(result.Data));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error loading events, HANDLE! {0}", e);
+            }
         }
 
         protected void PopulateNewsFromList(List<Models.NewsItem> newsItemsList)
         {
             var vmList = newsItemsList.
                 Select(x => new NewsItem(x)).
-                Take(2).
+                Take(1).
                 ToList();
 
             SetVMProperty(() => LatestNews, vmList);
-
         }
 
-        public List<GigItem> NextGigs { get; set; }
+        protected async void PopulateEventsFromList(List<Models.Event> events)
+        {
+            var vm = events.
+                OrderBy(e => e.StartTime).
+
+                // Commented out because dummy data has StartTime before current time
+                /*Where(e => e.StartTime > DateTimeOffset.Now).*/
+                Select(e => new EventVM(e)).
+                FirstOrDefault();
+
+            SetVMProperty(() => NextGig, vm);
+
+            try
+            {
+                await vm.LoadArtistImage();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error loading artist image: {0}", e);
+            }
+        }
+
+        public EventVM NextGig { get; set; }
 
         public List<NewsItem> LatestNews { get; set; }
     }
@@ -128,30 +160,11 @@ namespace FestApp.ViewModels
     {
         public DesignerMainPage()
         {
-
-            NextGigs = new List<GigItem>()
-            {
-                new GigItem(new Models.Artist()
-                {
-                    Name="Lily Allen",
-                    TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(15), 
-                    Stage="Stallman Stage",
-                }, "Next Up: "),
-
-                new GigItem(new Models.Artist()
-                {
-                    Name="Anna Abreu",
-                    TimeStart=DateTimeOffset.Now + TimeSpan.FromMinutes(90),
-                    Stage="Group Stage",
-                }, "")
-            };
-
             PopulateNewsFromList(DesignData.JsonLoader.News());
-            
 
-
+            var events = DesignData.JsonLoader.Events();
+            events[0].StartTime = DateTimeOffset.Now + TimeSpan.FromMinutes(27);
+            PopulateEventsFromList(events);
         }
-
-        public GigItem TestItem { get { return NextGigs[0]; } }
     }
 }

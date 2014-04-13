@@ -115,6 +115,8 @@
     </Compile>
     <Compile Include="DesignData\JsonLoader.cs" />
     <Compile Include="Models\Artist.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Pages\ArtistListPage.xaml.cs">
@@ -137,7 +139,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selectors\DataTemplateSelectorBase.cs" />
-    <Compile Include="Selectors\GigTemplateSelector.cs" />
     <Compile Include="Utils\AlphaKeyGroup.cs" />
     <Compile Include="Utils\AsyncBitmapLoader.cs" />
     <Compile Include="Utils\AsyncLock.cs" />
@@ -146,13 +147,13 @@
     <Compile Include="Utils\ListItemAlternateColorConverter.cs" />
     <Compile Include="Utils\LazyAsync.cs" />
     <Compile Include="Utils\NullToInvisibleConverter.cs" />
+    <Compile Include="Utils\LoadingIndicatorHelper.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
     <Compile Include="Utils\Refreshable.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />
     <Compile Include="ViewModels\ArtistListViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PropertyChangedBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
@@ -192,6 +193,7 @@
   <ItemGroup>
     <Resource Include="DesignData\artists.json" />
     <Resource Include="DesignData\news.json" />
+    <Resource Include="DesignData\events.json" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -202,18 +204,28 @@
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Artist\BadFinance.jpg" />
+    <Content Include="Images\Icons\bands_icon.png" />
     <Content Include="Images\Icons\band_page_play_spotify.png" />
     <Content Include="Images\Icons\band_page_play_youtube.png" />
     <Content Include="Images\Icons\band_page_star_icon.png" />
     <Content Include="Images\Icons\band_page_star_icon_active.png" />
+    <Content Include="README_FIRST.txt" />
+    <Content Include="Images\Icons\info_icon.png" />
+    <Content Include="Images\Icons\insta_icon.png" />
+    <Content Include="Images\Icons\map_icon.png" />
+    <Content Include="Images\Icons\wp_logo.png" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Artist\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WP8, Version=4.3.31.28729, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -222,6 +234,9 @@
     <Reference Include="GalaSoft.MvvmLight.WP8, Version=4.3.31.28729, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmLightLibs.4.3.31.1\lib\wp8\GalaSoft.MvvmLight.WP8.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

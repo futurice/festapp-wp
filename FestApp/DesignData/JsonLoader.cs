@@ -22,6 +22,11 @@ namespace FestApp.DesignData
             return LoadJson<List<Models.NewsItem>>("news");
         }
 
+        public static List<Models.Event> Events()
+        {
+            return LoadJson<List<Models.Event>>("events");
+        }
+
         private static T LoadJson<T>(string filename)
         {
             Uri fileUri = new Uri(string.Format("/FestApp;component/DesignData/{0}.json", filename), UriKind.Relative);

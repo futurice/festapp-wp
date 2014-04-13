@@ -5,7 +5,6 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -28,27 +27,32 @@ namespace FestApp
             InitializeComponent();
         }
 
-        public static void Open()
+        public static Uri GetPageUri(string id)
         {
-
+            return new Uri(string.Format("/Pages/ArtistPage.xaml?selectedItem={0}", Uri.EscapeDataString(id)), UriKind.Relative);
         }
 
         // When page is navigated to set data context to selected item in list
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            string selectedIndex = "";
-            if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedIndex)) {
-                int index = int.Parse(selectedIndex);
-                DataContext = _viewModel = App.ViewModel.Items[index];
+            string selectedId = "";
+            if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedId)) {
+                using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+                {
+                    await ArtistViewModel.LoadSingle(selectedId, viewModel =>
+                    {
+                        DataContext = _viewModel = viewModel;
+                    });
+                }
             }
         }
 
-        private void YoutubeButtonTapped(object sender, GestureEventArgs e)
+        private void YoutubeButtonTapped(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigateToPage(_viewModel.YoutubeUrl);
         }
 
-        private void SpotifyButtonTapped(object sender, GestureEventArgs e)
+        private void SpotifyButtonTapped(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigateToPage(_viewModel.SpotifyUrl);
         }
@@ -74,14 +78,19 @@ namespace FestApp
 
     class DesignerArtist : ArtistViewModel
     {
-        public DesignerArtist()
-        {
-            Name = "Test artist";
-            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et purus vel diam malesuada blandit eget sit amet lorem. Integer nisi sem, pulvinar id mollis sit amet, ultrices in ligula. Sed adipiscing, lectus vitae ultricies vehicula, eros nunc condimentum ligula, sit amet fermentum lectus massa ullamcorper lorem.";
-            Photo = new BitmapImage(new Uri("/DesignData/BadFinance.jpg", UriKind.Relative));
-            YoutubeUrl = "https://www.youtube.com/watch?v=xRKzk0tKchE";
-            Favorited = true;
-            //SpotifyUrl = "Foo";
+        private static Models.Artist SampleArtist {
+            get {
+                List<Models.Artist> artists = DesignData.JsonLoader.Artists();
+
+                if (!artists.Any())
+                {
+                    return null;
+                }
+
+                return artists[0];
+            }
         }
+
+        public DesignerArtist() : base(SampleArtist) { }
     }
 }

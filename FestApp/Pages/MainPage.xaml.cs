@@ -5,13 +5,12 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
-namespace FestApp
+namespace FestApp.Pages
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -22,28 +21,54 @@ namespace FestApp
         {
             InitializeComponent();
 
-            // Set the data context of the listbox control to the sample data
-            _viewModel = new ViewModels.MainPage();
             DataContext = _viewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
-        
-
         // Load data for the ViewModel Items
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded) {
-                App.ViewModel.LoadData();
-            }
+            if (_viewModel != null) { return; }
 
-            _viewModel.LoadData();
-            
+            _viewModel = new ViewModels.MainPage();
+            DataContext = _viewModel;
+            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+            {
+                // TODO exceptions?
+                await _viewModel.LoadData();
+            }
         }
 
-        private void TextBlock_Tap(object sender, GestureEventArgs e)
+        private void Info_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            var gig = (sender as FrameworkElement).DataContext as ViewModels.MainPage.GigItem;
+
+        }
+
+        private void Map_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Instagram_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Bands_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var pageUri = ArtistListPage.GetPageUri();
+            NavigationService.Navigate(pageUri);
+        }
+
+        private void News_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var pageUri = News.GetPageUri();
+            NavigationService.Navigate(pageUri);
+        }
+
+        private void Gig_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
         }
     }
 }
