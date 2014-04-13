@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:vm="clr-namespace:FestApp.ViewModels"
     xmlns:conv="clr-namespace:FestApp.Converters"
+    xmlns:ctrl="clr-namespace:FestApp.Controls"
     xmlns:sel="clr-namespace:FestApp.Selectors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,18 +21,6 @@
     <phone:PhoneApplicationPage.Resources>
 
         <conv:IndexToFontWeight x:Key="IndexToFontWeight" />
-
-        <DataTemplate x:Key="NextGigTemplate">
-            <StackPanel Margin="0,6">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Title}" LineHeight="20" LineStackingStrategy="BlockLineHeight" />                
-                </StackPanel>
-
-                <TextBlock Foreground="#6c6c6c" Text="{Binding Stage}" LineHeight="20" LineStackingStrategy="BlockLineHeight" />
-
-            </StackPanel>
-        </DataTemplate>
-
         
         <DataTemplate x:Key="NewsTemplate">
             <StackPanel Orientation="Vertical" Style="{StaticResource NewsBoxStyle}">
@@ -45,9 +34,11 @@
     <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Style="{StaticResource PageStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="230"/>
+            <RowDefinition Height="12"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
             <RowDefinition Height="110"/>
             <RowDefinition Height="12"/>
             <RowDefinition Height="110"/>
@@ -62,36 +53,38 @@
             <ColumnDefinition Width="12"/>
         </Grid.ColumnDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Grid.ColumnSpan="5" Margin="12,17,0,28">
-            <Image MaxHeight="110" Source="/Images/icons/wp_logo.png"/>
-        </StackPanel>
+        <Image
+            MaxHeight="110"
+            Source="/Images/icons/wp_logo.png"
+            Grid.Row="0" Grid.ColumnSpan="4"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"/>
         
-        <Grid Margin="12,12" Grid.Row="1" Grid.ColumnSpan="5">
-
-            <Grid.Background>
-                <ImageBrush ImageSource="/Images/Artist/BadFinance.jpg"/>
-            </Grid.Background>
-            <!--<Image
-                Source="/Images/Artist/BadFinance.jpg"
+        <Grid Margin="12 1 12 0" Grid.Row="1" Grid.ColumnSpan="5"
+              DataContext="{Binding NextGig}">
+            
+            <ctrl:AsyncImage
+                Source="{Binding ArtistImage}"
+                Stretch="UniformToFill"
                 VerticalAlignment="Stretch"
-                HorizontalAlignment="Stretch"
-                Grid.ColumnSpan="10"
-                Grid.Row="0"
-                /> -->
+                HorizontalAlignment="Stretch"/>
             
-            <Rectangle Height="55" Fill="Black" VerticalAlignment="Top" HorizontalAlignment="Stretch" Opacity="0.80"/>
-            <ItemsControl Grid.Row="0"                              
-                            ItemsSource="{Binding NextGigs}"
-                            ItemTemplate="{StaticResource NextGigTemplate}"
-                          />
-            
-            <ContentControl HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <TextBlock Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
-            </ContentControl>
+            <StackPanel Background="#CC000000" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <TextBlock
+                    Text="{Binding Title}"
+                    Margin="12 3 12 0" />
+                <TextBlock
+                    Foreground="#6c6c6c"
+                    Text="{Binding Stage}"
+                    Margin="12 0 12 6"/>
+            </StackPanel>
+
+            <TextBlock
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
         </Grid>
 
-        <StackPanel Margin="12,12" Grid.Row="2" Grid.ColumnSpan="5" Style="{StaticResource NewsBoxStyle}">
+        <StackPanel Margin="12 0" Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource NewsBoxStyle}">
             <ItemsControl                
                 ItemsSource="{Binding LatestNews}"
                 ItemTemplate="{StaticResource NewsTemplate}"
@@ -101,7 +94,10 @@
             </ContentControl>
         </StackPanel>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource BandsBoxStyle}"  Grid.Row="3" Grid.Column="1" >
+        <Grid HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Style="{StaticResource BandsBoxStyle}" 
+              Grid.Row="5" Grid.Column="1" >
           
             <Image 
                 Source="/images/icons/bands_icon.png" 
@@ -116,7 +112,11 @@
                 />
         </Grid>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource InstagramBoxStyle}" Grid.Row="3" Grid.Column="3">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource InstagramBoxStyle}"
+            Grid.Row="5" Grid.Column="3">
             <Image
                 Source="/Images/Icons/insta_icon.png"
                 Style="{StaticResource MainPageImageStyle}"
@@ -142,7 +142,11 @@
                     />
             </StackPanel>
         </Grid>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource MapBoxStyle}" Grid.Row="5" Grid.Column="1">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource MapBoxStyle}"
+            Grid.Row="7" Grid.Column="1">
             <Image
                 Source="/images/Icons/map_icon.png"
                 Style="{StaticResource MainPageImageStyle}"
@@ -156,7 +160,11 @@
                 />
         </Grid>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource InfoBoxStyle}" Grid.Row="5" Grid.Column="3">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource InfoBoxStyle}"
+            Grid.Row="7" Grid.Column="3">
             <Image
                 Source="/Images/Icons/info_icon.png"
                 Style="{StaticResource MainPageImageStyle}"

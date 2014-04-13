@@ -43,16 +43,19 @@ namespace FestApp.ViewModels
             }
         }
 
-        public class EventVM
+        public class EventVM : ViewModelBase
         {
             public string Title { get; private set; }
             public string Stage { get; private set; }
             public string StartingIn { get; private set; }
+            public string ArtistImage { get; private set; }
 
-            public BitmapImage artistImage { get; private set; }
+            public readonly Models.Event Event;
 
             public EventVM(Models.Event eventInfo)
             {
+                Event = eventInfo;
+
                 Title = String.Format("Next up: {0} in {1}",
                     String.Join(", ", eventInfo.Artists),
                     MakeStartString(eventInfo.StartTime));
@@ -60,7 +63,18 @@ namespace FestApp.ViewModels
 
                 StartingIn = MakeStartString(eventInfo.StartTime);
             }
-           
+
+            public async Task LoadArtistImage()
+            {
+                await API.Artists.UseCachedThenFreshData(data =>
+                    {
+                        var artist = data.Data.
+                            Where(a => Event.Artists.Any(aName => aName == a.Name)).
+                            First();
+                        SetVMProperty(() => ArtistImage, artist.Picture);
+                    });
+            }
+
             private static string MakeStartString(DateTimeOffset startTime)
             {
                 var timeUntilStart = startTime - DateTimeOffset.Now;
@@ -115,20 +129,29 @@ namespace FestApp.ViewModels
             SetVMProperty(() => LatestNews, vmList);
         }
 
-        protected void PopulateEventsFromList(List<Models.Event> events)
+        protected async void PopulateEventsFromList(List<Models.Event> events)
         {
-            var vmList = events.
+            var vm = events.
                 OrderBy(e => e.StartTime).
 
                 // Commented out because dummy data has StartTime before current time
                 /*Where(e => e.StartTime > DateTimeOffset.Now).*/
                 Select(e => new EventVM(e)).
-                Take(1).
-                ToList();
-            SetVMProperty(() => NextGigs, vmList);
+                FirstOrDefault();
+
+            SetVMProperty(() => NextGig, vm);
+
+            try
+            {
+                await vm.LoadArtistImage();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error loading artist image: {0}", e);
+            }
         }
 
-        public List<EventVM> NextGigs { get; set; }
+        public EventVM NextGig { get; set; }
 
         public List<NewsItem> LatestNews { get; set; }
     }
