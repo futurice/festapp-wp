@@ -114,11 +114,12 @@
             </Grid>
         </ListBoxItem>
 
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource InstagramBoxStyle}"
-            Grid.Row="5" Grid.Column="3">
+        <ListBoxItem
+                toolkit:TiltEffect.IsTiltEnabled="True"
+                Grid.Row="5" Grid.Column="3"
+                HorizontalContentAlignment="Stretch">
+        <Grid            
+            Style="{StaticResource InstagramBoxStyle}">
             <Image
                 Source="/Images/Icons/insta_icon.png"
                 Style="{StaticResource MainPageImageStyle}"
@@ -143,41 +144,49 @@
                     HorizontalAlignment="Right"
                     />
             </StackPanel>
-        </Grid>
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource MapBoxStyle}"
-            Grid.Row="7" Grid.Column="1">
-            <Image
-                Source="/images/Icons/map_icon.png"
-                Style="{StaticResource MainPageImageStyle}"
-            />
+    </Grid>
+    </ListBoxItem>
+        
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="7" Grid.Column="1"
+            HorizontalContentAlignment="Stretch">
             
-            <TextBlock
-                Text="MAP"
-                Style="{StaticResource MainPageTextStyle}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                />
-        </Grid>
+            <Grid
+                    Style="{StaticResource MapBoxStyle}">
+                    <Image
+                        Source="/images/Icons/map_icon.png"
+                        Style="{StaticResource MainPageImageStyle}"
+                    />
+            
+                    <TextBlock
+                        Text="MAP"
+                        Style="{StaticResource MainPageTextStyle}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        />
+                </Grid>
+        </ListBoxItem>
 
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource InfoBoxStyle}"
-            Grid.Row="7" Grid.Column="3">
-            <Image
-                Source="/Images/Icons/info_icon.png"
-                Style="{StaticResource MainPageImageStyle}"
-                />
-            <TextBlock
-                Text="INFO"
-                Style="{StaticResource MainPageTextStyle}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                />
-        </Grid>
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="7" Grid.Column="3"
+            HorizontalContentAlignment="Stretch">
+            
+            <Grid
+                Style="{StaticResource InfoBoxStyle}">
+                <Image
+                    Source="/Images/Icons/info_icon.png"
+                    Style="{StaticResource MainPageImageStyle}"
+                    />
+                <TextBlock
+                    Text="INFO"
+                    Style="{StaticResource MainPageTextStyle}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    />
+            </Grid>
+        </ListBoxItem>
 
     </Grid>
  
