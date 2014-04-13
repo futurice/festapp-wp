@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FestApp.Utils;
 
 namespace FestApp.Pages
 {
@@ -15,6 +16,7 @@ namespace FestApp.Pages
         public NewsItem()
         {
             InitializeComponent();
+            this.EnableTransitions();
         }
     }
 }

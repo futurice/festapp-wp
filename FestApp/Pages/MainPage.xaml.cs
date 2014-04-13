@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using FestApp.Utils;
 
 namespace FestApp.Pages
 {
@@ -20,6 +21,7 @@ namespace FestApp.Pages
         public MainPage()
         {
             InitializeComponent();
+            this.EnableTransitions();
 
             DataContext = _viewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);

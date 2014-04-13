@@ -145,6 +145,7 @@
     <Compile Include="Utils\LazyAsync.cs" />
     <Compile Include="Utils\NullToInvisibleConverter.cs" />
     <Compile Include="Utils\LoadingIndicatorHelper.cs" />
+    <Compile Include="Utils\PageTransitions.cs" />
     <Compile Include="Utils\PropertySupport.cs" />
     <Compile Include="Utils\Refreshable.cs" />
     <Compile Include="Utils\SmartDispatcher.cs" />
