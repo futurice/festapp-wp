@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 using Microsoft.Phone.Tasks;
 using System.Diagnostics;
+using FestApp.Utils;
 
 namespace FestApp
 {
@@ -25,6 +26,7 @@ namespace FestApp
         public ArtistPage()
         {
             InitializeComponent();
+            this.EnableTransitions();
         }
 
         public static Uri GetPageUri(string id)

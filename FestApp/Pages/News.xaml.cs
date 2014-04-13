@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
 using System.Windows.Data;
+using FestApp.Utils;
 
 namespace FestApp.Pages
 {
@@ -82,6 +83,12 @@ namespace FestApp.Pages
         public News()
         {
             InitializeComponent();
+            this.EnableTransitions();
+        }
+
+        public static Uri GetPageUri()
+        {
+            return new Uri("/Pages/News.xaml", UriKind.Relative);
         }
     }
 }

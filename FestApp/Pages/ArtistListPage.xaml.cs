@@ -13,6 +13,7 @@ using FestApp.ViewModels;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Linq;
+using FestApp.Utils;
 
 namespace FestApp.Pages
 {
@@ -34,6 +35,7 @@ namespace FestApp.Pages
         public ArtistListPage()
         {
             InitializeComponent();
+            this.EnableTransitions();
             DataContext = _viewModel = new ArtistListViewModel();
             Loaded += PageLoaded;
         }
@@ -47,7 +49,7 @@ namespace FestApp.Pages
             }
         }
 
-        public Uri GetPageUri()
+        public static Uri GetPageUri()
         {
             return new Uri(string.Format("/Pages/ArtistListPage.xaml"), UriKind.Relative);
         }
