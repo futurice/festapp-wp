@@ -38,7 +38,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="230"/>
             <RowDefinition Height="12"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="120"/>
             <RowDefinition Height="12"/>
             <RowDefinition Height="110"/>
             <RowDefinition Height="12"/>
@@ -100,17 +100,19 @@
             Grid.Row="3"
             Grid.ColumnSpan="5"
             HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
             Tap="News_Tap">
-            
-            <StackPanel Margin="12 0" Style="{StaticResource NewsBoxStyle}">
+
+            <Grid Margin="12 0" Style="{StaticResource NewsBoxStyle}">
                 <ItemsControl                
                     ItemsSource="{Binding LatestNews}"
                     ItemTemplate="{StaticResource NewsTemplate}"
                     />
-                <ContentControl HorizontalAlignment="Right">
-                    <TextBlock Style="{StaticResource NewsLogoStyle}">NEWS</TextBlock>
-                </ContentControl>
-            </StackPanel>
+                <TextBlock
+                    Style="{StaticResource NewsLogoStyle}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">NEWS</TextBlock>
+            </Grid>
         </ListBoxItem>
 
         <ListBoxItem

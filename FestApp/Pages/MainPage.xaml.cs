@@ -34,10 +34,17 @@ namespace FestApp.Pages
 
             _viewModel = new ViewModels.MainPage();
             DataContext = _viewModel;
-            using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+
+            try
             {
-                // TODO exceptions?
-                await _viewModel.LoadData();
+                using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+                {
+                    await _viewModel.LoadData();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to load latest data!");
             }
         }
 

@@ -116,6 +116,7 @@
     <Compile Include="DesignData\JsonLoader.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Info.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\NewsItem.cs" />
     <Compile Include="Models\Program.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Utils\SmartDispatcher.cs" />
     <Compile Include="ViewModels\ArtistListViewModel.cs" />
     <Compile Include="ViewModels\ArtistViewModel.cs" />
+    <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PropertyChangedBase.cs" />

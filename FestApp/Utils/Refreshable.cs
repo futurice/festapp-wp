@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace FestApp.Utils
 {
@@ -63,22 +64,26 @@ namespace FestApp.Utils
                 });
         }
 
+        // Does heavy stuff in thread pool, then dispatches to UI
         public async Task UseCachedThenFreshData(Func<DataResult, Task> action)
         {
-            DataResult result;
-            try
+            await Task.Run(async () =>
             {
-                result = await GetCached();
-                await action(result);
-                if (result.IsFresh) { return; }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error loading from cache: {0}", e);
-            }
+                DataResult result;
+                try
+                {
+                    result = await GetCached();
+                    await SmartDispatcher.InvokeAsync(() => action(result));
+                    if (result.IsFresh) { return; }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error loading from cache: {0}", e);
+                }
 
-            result = await GetLatest();
-            await action(result);
+                result = await GetLatest();
+                await SmartDispatcher.InvokeAsync(() => action(result));
+            });
         }
     }
 }

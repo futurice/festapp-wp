@@ -21,5 +21,8 @@ namespace FestApp
         public static readonly Refreshable<List<Models.Location>> Locations =
             new Refreshable<List<Models.Location>>("locations");
 
+        public static readonly Refreshable<List<Models.Info>> Info =
+            new Refreshable<List<Models.Info>>("info");
+
     }
 }

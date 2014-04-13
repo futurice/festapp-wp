@@ -7,6 +7,7 @@ using FestApp.Utils;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace FestApp.ViewModels
 {
@@ -97,26 +98,12 @@ namespace FestApp.ViewModels
 
         private async Task LoadNews()
         {
-            try
-            {
-                await API.News.UseCachedThenFreshData(result => PopulateNewsFromList(result.Data));
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error loading news, HANDLE! {0}", e);
-            }
+            await API.News.UseCachedThenFreshData(result => PopulateNewsFromList(result.Data));
         }
 
         private async Task LoadEvents()
         {
-            try
-            {
-                await API.Events.UseCachedThenFreshData(result => PopulateEventsFromList(result.Data));
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error loading events, HANDLE! {0}", e);
-            }
+            await API.Events.UseCachedThenFreshData(result => PopulateEventsFromList(result.Data));
         }
 
         protected void PopulateNewsFromList(List<Models.NewsItem> newsItemsList)
@@ -133,9 +120,7 @@ namespace FestApp.ViewModels
         {
             var vm = events.
                 OrderBy(e => e.StartTime).
-
-                // Commented out because dummy data has StartTime before current time
-                /*Where(e => e.StartTime > DateTimeOffset.Now).*/
+                Where(e => e.StartTime > DateTimeOffset.Now).
                 Select(e => new EventVM(e)).
                 FirstOrDefault();
 
