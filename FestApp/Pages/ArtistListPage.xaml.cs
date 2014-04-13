@@ -47,7 +47,7 @@ namespace FestApp.Pages
             }
         }
 
-        public Uri GetPageUri()
+        public static Uri GetPageUri()
         {
             return new Uri(string.Format("/Pages/ArtistListPage.xaml"), UriKind.Relative);
         }

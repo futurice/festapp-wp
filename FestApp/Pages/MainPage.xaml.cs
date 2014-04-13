@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
-namespace FestApp
+namespace FestApp.Pages
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -37,6 +37,38 @@ namespace FestApp
                 // TODO exceptions?
                 await _viewModel.LoadData();
             }
+        }
+
+        private void Info_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Map_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Instagram_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Bands_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var pageUri = ArtistListPage.GetPageUri();
+            NavigationService.Navigate(pageUri);
+        }
+
+        private void News_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var pageUri = News.GetPageUri();
+            NavigationService.Navigate(pageUri);
+        }
+
+        private void Gig_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
         }
     }
 }
