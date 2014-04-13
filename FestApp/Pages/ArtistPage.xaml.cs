@@ -53,6 +53,11 @@ namespace FestApp
             NavigateToPage(_viewModel.SpotifyUrl);
         }
 
+        private void FavoriteButtonTapped(object sender, GestureEventArgs e)
+        {
+            _viewModel.Favorited = !_viewModel.Favorited;
+        }
+
         private void NavigateToPage(string url)
         {
             if (url == null)
@@ -75,6 +80,7 @@ namespace FestApp
             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et purus vel diam malesuada blandit eget sit amet lorem. Integer nisi sem, pulvinar id mollis sit amet, ultrices in ligula. Sed adipiscing, lectus vitae ultricies vehicula, eros nunc condimentum ligula, sit amet fermentum lectus massa ullamcorper lorem.";
             Photo = new BitmapImage(new Uri("/DesignData/BadFinance.jpg", UriKind.Relative));
             YoutubeUrl = "https://www.youtube.com/watch?v=xRKzk0tKchE";
+            Favorited = true;
             //SpotifyUrl = "Foo";
         }
     }

@@ -16,6 +16,40 @@ namespace FestApp
 {
     public class ArtistViewModel : INotifyPropertyChanged
     {
+        private bool _favorited;
+
+        public bool Favorited
+        {
+            get
+            {
+                return _favorited;
+            }
+            set
+            {
+                if (value != _favorited)
+                {
+                    _favorited = value;
+                    NotifyPropertyChanged("Favorited");
+                    NotifyPropertyChanged("FavoritedImage");
+                }
+            }
+        }
+
+        public BitmapImage FavoritedImage
+        {
+            get
+            {
+                if (_favorited)
+                {
+                    return new BitmapImage(new Uri("/Images/Icons/band_page_star_icon_active.png", UriKind.Relative));
+                }
+                else
+                {
+                    return new BitmapImage(new Uri("/Images/Icons/band_page_star_icon.png", UriKind.Relative));
+                }
+            }
+        }
+
         private string _name;
 
         public string Name
