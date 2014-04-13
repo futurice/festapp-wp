@@ -38,5 +38,35 @@ namespace FestApp
                 await _viewModel.LoadData();
             }
         }
+
+        private void Info_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Map_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Instagram_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Bands_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void News_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void Gig_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
     }
 }

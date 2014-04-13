@@ -61,44 +61,63 @@
             VerticalAlignment="Bottom"
             HorizontalAlignment="Right"/>
         
-        <Grid Margin="12 1 12 0" Grid.Row="1" Grid.ColumnSpan="5"
-              DataContext="{Binding NextGig}">
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="1"
+            Grid.ColumnSpan="5"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Tap="Gig_Tap">
             
-            <ctrl:AsyncImage
-                Source="{Binding ArtistImage}"
-                Stretch="UniformToFill"
-                VerticalAlignment="Stretch"
-                HorizontalAlignment="Stretch"/>
+            <Grid Margin="12 1 12 0" 
+                  Style="{StaticResource BandsBoxStyle}"
+                  DataContext="{Binding NextGig}">
             
-            <StackPanel Background="#CC000000" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <ctrl:AsyncImage
+                    Source="{Binding ArtistImage}"
+                    Stretch="UniformToFill"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"/>
+            
+                <StackPanel Background="#CC000000" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                    <TextBlock
+                        Text="{Binding Title}"
+                        Margin="12 3 12 0" />
+                    <TextBlock
+                        Foreground="#6c6c6c"
+                        Text="{Binding Stage}"
+                        Margin="12 0 12 6"/>
+                </StackPanel>
+
                 <TextBlock
-                    Text="{Binding Title}"
-                    Margin="12 3 12 0" />
-                <TextBlock
-                    Foreground="#6c6c6c"
-                    Text="{Binding Stage}"
-                    Margin="12 0 12 6"/>
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
+            </Grid>
+        </ListBoxItem>
+
+        <ListBoxItem
+            toolkit:TiltEffect.IsTiltEnabled="True"
+            Grid.Row="3"
+            Grid.ColumnSpan="5"
+            HorizontalContentAlignment="Stretch"
+            Tap="News_Tap">
+            
+            <StackPanel Margin="12 0" Style="{StaticResource NewsBoxStyle}">
+                <ItemsControl                
+                    ItemsSource="{Binding LatestNews}"
+                    ItemTemplate="{StaticResource NewsTemplate}"
+                    />
+                <ContentControl HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource NewsLogoStyle}">NEWS</TextBlock>
+                </ContentControl>
             </StackPanel>
-
-            <TextBlock
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Style="{StaticResource MainPageTextStyle}">SCHEDULE</TextBlock>
-        </Grid>
-
-        <StackPanel Margin="12 0" Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource NewsBoxStyle}">
-            <ItemsControl                
-                ItemsSource="{Binding LatestNews}"
-                ItemTemplate="{StaticResource NewsTemplate}"
-                />
-            <ContentControl HorizontalAlignment="Right">
-                <TextBlock Style="{StaticResource NewsLogoStyle}">NEWS</TextBlock>
-            </ContentControl>
-        </StackPanel>
+        </ListBoxItem>
 
         <ListBoxItem
             toolkit:TiltEffect.IsTiltEnabled="True"
             Grid.Row="5" Grid.Column="1"
-            HorizontalContentAlignment="Stretch">
+            HorizontalContentAlignment="Stretch"
+            Tap="Bands_Tap">
             <Grid Style="{StaticResource BandsBoxStyle}">
                 <Image 
                     Source="/images/icons/bands_icon.png" 
@@ -117,7 +136,8 @@
         <ListBoxItem
                 toolkit:TiltEffect.IsTiltEnabled="True"
                 Grid.Row="5" Grid.Column="3"
-                HorizontalContentAlignment="Stretch">
+                HorizontalContentAlignment="Stretch"
+                Tap="Instagram_Tap">
         <Grid            
             Style="{StaticResource InstagramBoxStyle}">
             <Image
@@ -150,7 +170,8 @@
         <ListBoxItem
             toolkit:TiltEffect.IsTiltEnabled="True"
             Grid.Row="7" Grid.Column="1"
-            HorizontalContentAlignment="Stretch">
+            HorizontalContentAlignment="Stretch"
+            Tap="Map_Tap">
             
             <Grid
                     Style="{StaticResource MapBoxStyle}">
@@ -171,7 +192,9 @@
         <ListBoxItem
             toolkit:TiltEffect.IsTiltEnabled="True"
             Grid.Row="7" Grid.Column="3"
-            HorizontalContentAlignment="Stretch">
+            HorizontalContentAlignment="Stretch"
+            Tap="Info_Tap"
+            >
             
             <Grid
                 Style="{StaticResource InfoBoxStyle}">
