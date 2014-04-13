@@ -32,7 +32,7 @@ namespace FestApp
             Description = artist.Content;
             PhotoUrl = artist.Picture;
             SpotifyUrl = artist.Spotify;
-            //YoutubeUrl = artist.Youtube
+            YoutubeUrl = artist.Youtube;
         }
 
         public static async Task LoadSingle(string id, ArtistViewModelLoaded listener)

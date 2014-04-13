@@ -128,6 +128,9 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\News.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +211,8 @@
     <Content Include="Images\Icons\band_page_play_youtube.png" />
     <Content Include="Images\Icons\band_page_star_icon.png" />
     <Content Include="Images\Icons\band_page_star_icon_active.png" />
+    <Content Include="Images\Icons\logo.png" />
+    <Content Include="Images\map.png" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Images\Icons\info_icon.png" />
     <Content Include="Images\Icons\insta_icon.png" />
