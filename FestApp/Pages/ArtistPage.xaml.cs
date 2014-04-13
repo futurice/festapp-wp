@@ -59,6 +59,11 @@ namespace FestApp
             NavigateToPage(_viewModel.SpotifyUrl);
         }
 
+        private void FavoriteButtonTapped(object sender, GestureEventArgs e)
+        {
+            _viewModel.Favorited = !_viewModel.Favorited;
+        }
+
         private void NavigateToPage(string url)
         {
             if (url == null)

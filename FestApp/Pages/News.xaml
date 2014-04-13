@@ -15,10 +15,6 @@
     d:DataContext="{d:DesignInstance Type=dv:DesignerNews, IsDesignTimeCreatable=True}"
     shell:SystemTray.IsVisible="True">
 
-    <phone:PhoneApplicationPage.Resources>
-        <dv:EvenToBackgroundConverter x:Name="EvenToBackgroundConverter" />
-    </phone:PhoneApplicationPage.Resources>
-    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <ScrollViewer Background="#EFEFEF" HorizontalScrollBarVisibility="Disabled">
     
@@ -37,19 +33,24 @@
                 <ListBox ItemsSource="{Binding News}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Background="{Binding IsEven,Converter={StaticResource EvenToBackgroundConverter}}">
+                            <Grid Background="{Binding ListIndex,Converter={StaticResource AlternateListColoring}}">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Text="{Binding Title}" Foreground="Black" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
-                                <TextBlock Grid.Row="1" Text="{Binding Time}" Margin="10,0,10,20" Foreground="Black" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                                <TextBlock Grid.Row="0" Text="{Binding Title}" Style="{StaticResource NewsItemHeaderStyle}"/>
+                                <TextBlock Grid.Row="1" Text="{Binding Time}" Style="{StaticResource NewsItemDateStyle}"/>
                         
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListBox>
             </Grid>
         </Grid>

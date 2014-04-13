@@ -1,4 +1,4 @@
-﻿<Application 
+<Application 
     x:Class="FestApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="Aqua" EvenBrush="AliceBlue" />
+        <utils:ListItemAlternateBrushConverter x:Name="AlternateListColoring" OddBrush="#E7EBF3" EvenBrush="#D5D9E1" />
         <utils:NullToInvisibleConverter x:Name="NullToInvisibleConverter" />
         <utils:FalseToInvisibleConverter x:Name="FalseToInvisibleConverter" />
         
@@ -68,6 +68,19 @@
         </Style>
         <Style x:Name="BaseLargeTextStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black" />
+        </Style>
+        <Style x:Name="NewsItemHeaderStyle" BasedOn="{StaticResource BaseLargeTextStyle}" TargetType="TextBlock">
+            <Setter Property="Margin" Value="15,15,15,0"/>
+            <Setter Property="TextWrapping"  Value="Wrap"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        <Style x:Name="NewsItemDateStyle" BasedOn="{StaticResource PhoneTextNormalStyle}" TargetType="TextBlock">
+            <Setter Property="Margin" Value="15,0,15,15"/>
+            <Setter Property="TextWrapping"  Value="Wrap"/>
+            <Setter Property="Foreground" Value="Gray"/>
+        </Style>
+        <Style x:Name="InfoItemHeaderStyle" BasedOn="{StaticResource NewsItemHeaderStyle}" TargetType="TextBlock">
+            <Setter Property="Margin" Value="15,15,15,18"/>
         </Style>
         <Style x:Name="ListItemContainerStyle" TargetType="Grid">
             <Setter Property="Margin" Value="5,0,5,0"/>
