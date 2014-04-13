@@ -79,5 +79,19 @@ namespace System.Windows.Threading
                 return await _instance.InvokeAsync(a);
             }
         }
+
+        public static async Task InvokeAsync(Func<Task> a)
+        {
+            // If the current thread is the user interface thread, skip the
+            // dispatcher and directly invoke the Action.
+            if (_instance.CheckAccess() || _designer == true)
+            {
+                await a();
+            }
+            else
+            {
+                await await _instance.InvokeAsync(a);
+            }
+        }
     }
 }
