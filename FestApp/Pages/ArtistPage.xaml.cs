@@ -33,13 +33,17 @@ namespace FestApp
         }
 
         // When page is navigated to set data context to selected item in list
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             string selectedId = "";
             if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedId)) {
-                ArtistViewModel.LoadSingle(selectedId, viewModel => {
-                    DataContext = _viewModel = viewModel;
-                });
+                using (Utils.LoadingIndicatorHelper.StartLoading("Refreshing data..."))
+                {
+                    await ArtistViewModel.LoadSingle(selectedId, viewModel =>
+                    {
+                        DataContext = _viewModel = viewModel;
+                    });
+                }
             }
         }
 
@@ -69,13 +73,19 @@ namespace FestApp
 
     class DesignerArtist : ArtistViewModel
     {
-        public DesignerArtist()
-        {
-            Name = "Test artist";
-            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et purus vel diam malesuada blandit eget sit amet lorem. Integer nisi sem, pulvinar id mollis sit amet, ultrices in ligula. Sed adipiscing, lectus vitae ultricies vehicula, eros nunc condimentum ligula, sit amet fermentum lectus massa ullamcorper lorem.";
-            PhotoUrl = "/DesignData/BadFinance.jpg";
-            YoutubeUrl = "https://www.youtube.com/watch?v=xRKzk0tKchE";
-            //SpotifyUrl = "Foo";
+        private static Models.Artist SampleArtist {
+            get {
+                List<Models.Artist> artists = DesignData.JsonLoader.Artists();
+
+                if (!artists.Any())
+                {
+                    return null;
+                }
+
+                return artists[0];
+            }
         }
+
+        public DesignerArtist() : base(SampleArtist) { }
     }
 }
