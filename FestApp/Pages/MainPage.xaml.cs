@@ -79,7 +79,8 @@ namespace FestApp.Pages
 
         private void Gig_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            var pageUri = SchedulePage.GetPageUri();
+            NavigationService.Navigate(pageUri);
         }
     }
 }

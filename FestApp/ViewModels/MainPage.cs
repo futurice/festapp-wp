@@ -118,6 +118,8 @@ namespace FestApp.ViewModels
 
         protected async void PopulateEventsFromList(List<Models.Event> events)
         {
+            if (events == null) return;
+
             var vm = events.
                 OrderBy(e => e.StartTime).
                 Where(e => e.StartTime > DateTimeOffset.Now).
